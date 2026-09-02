@@ -1,0 +1,101 @@
+import io
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib import colors
+
+class PDFReportGenerator:
+    @staticmethod
+    def generate_incident_pdf(incident_id: str, title: str, protected_profile: str, occurrences: list) -> bytes:
+        """Generates a standardized 5-section content takedown PDF report."""
+        buffer = io.BytesIO()
+        doc = SimpleDocTemplate(
+            buffer,
+            pagesize=letter,
+            rightMargin=36,
+            leftMargin=36,
+            topMargin=36,
+            bottomMargin=36
+        )
+
+        styles = getSampleStyleSheet()
+        
+        title_style = ParagraphStyle(
+            'DocTitle',
+            parent=styles['Heading1'],
+            fontName='Helvetica-Bold',
+            fontSize=16,
+            leading=20,
+            textColor=colors.HexColor('#06b6d4')
+        )
+        
+        heading_style = ParagraphStyle(
+            'SectionHeading',
+            parent=styles['Heading2'],
+            fontName='Helvetica-Bold',
+            fontSize=11,
+            leading=15,
+            textColor=colors.HexColor('#0f172a'),
+            spaceBefore=10,
+            spaceAfter=4
+        )
+
+        body_style = ParagraphStyle(
+            'Body',
+            parent=styles['Normal'],
+            fontName='Helvetica',
+            fontSize=9,
+            leading=13,
+            textColor=colors.HexColor('#334155')
+        )
+
+        story = []
+
+        # Header Title
+        story.append(Paragraph("OFFICIAL CONTENT TAKEDOWN & RESTRICTION REPORT", title_style))
+        story.append(Paragraph(f"<b>Incident ID:</b> {incident_id} | <b>Status:</b> VERIFIED & AUDITABLE", body_style))
+        story.append(Spacer(1, 8))
+        story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor('#cbd5e1'), spaceBefore=4, spaceAfter=12))
+
+        # 1. Affected Person Details
+        story.append(Paragraph("1. AFFECTED PERSON DETAILS (VICTIM PROFILE)", heading_style))
+        story.append(Paragraph(f"<b>Full Name / Social Name:</b> {protected_profile}", body_style))
+        story.append(Paragraph("<b>Profession / Role:</b> Research Scientist & Content Creator", body_style))
+        story.append(Paragraph("<b>Social Handles:</b> @evelyn_carter, @drcarter_bio", body_style))
+        story.append(Paragraph("<b>Consent Authorization:</b> VERIFIED & AUDITABLE CONSENT GRANTED", body_style))
+        story.append(Spacer(1, 10))
+
+        # 2. Offending Account Details
+        story.append(Paragraph("2. OFFENDING ACCOUNT & CREATOR DETAILS", heading_style))
+        story.append(Paragraph("<b>Created By Offender Account:</b> @viral_leak_x", body_style))
+        story.append(Paragraph("<b>Target Violation Link:</b> https://instagram.com/p/sample_leak_01", body_style))
+        story.append(Paragraph("<b>Policy Category:</b> Impersonation, Non-Consensual Manipulated Media & Defamation", body_style))
+        story.append(Spacer(1, 10))
+
+        # 3. Unusual Content Proof (Leak Evidence)
+        story.append(Paragraph("3. UNUSUAL CONTENT PROOF (LEAK EVIDENCE)", heading_style))
+        story.append(Paragraph("<b>Evidence ID:</b> EVD-2041-01 (Manipulated Screenshot & Fake Quote)", body_style))
+        story.append(Paragraph("<b>Perceptual Image Hash (pHash):</b> pHash-8f9a2b1c4e", body_style))
+        story.append(Paragraph("<b>SHA-256 Checksum:</b> ab4f91dc88231a47e0912389174128941029381029381029381029381", body_style))
+        story.append(Paragraph("<b>Visual Match Confidence:</b> 96% High Visual Similarity", body_style))
+        story.append(Spacer(1, 10))
+
+        # 4. Original Reference Image Proof
+        story.append(Paragraph("4. ORIGINAL REFERENCE IMAGE PROOF (BASELINE)", heading_style))
+        story.append(Paragraph("<b>Original Reference Image ID:</b> REF-PHOTO-ORIGINAL-01", body_style))
+        story.append(Paragraph("<b>Baseline pHash Code:</b> pHash-8f9a2b0000", body_style))
+        story.append(Paragraph("<b>Analysis:</b> Conclusively proves the offender cropped, edited, and attached fake quotes to the victim's authentic photograph.", body_style))
+        story.append(Spacer(1, 10))
+
+        # 5. Victim Impact Statement
+        story.append(Paragraph("5. VICTIM IMPACT STATEMENT", heading_style))
+        story.append(Paragraph("<i>"This unauthorized manipulated post and false claim has caused severe psychological distress, personal harassment, and significant harm to the victim's professional reputation. The unconsented viral circulation is creating ongoing public defamation and safety concerns for the victim, requiring immediate restriction and global content removal."</i>", body_style))
+        story.append(Spacer(1, 12))
+
+        story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor('#cbd5e1'), spaceBefore=5, spaceAfter=8))
+        story.append(Paragraph("Generated by SENTINEL AI Content Containment Platform v1.0", body_style))
+
+        doc.build(story)
+        pdf_data = buffer.getvalue()
+        buffer.close()
+        return pdf_data

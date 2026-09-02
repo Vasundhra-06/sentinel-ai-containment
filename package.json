@@ -1,0 +1,16 @@
+{
+  "name": "sentinel-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SENTINEL - AI-Based Harmful Content Detection & Containment Monorepo",
+  "scripts": {
+    "dev:web": "npm --prefix apps/web run dev",
+    "build:web": "npm --prefix apps/web run build",
+    "start:web": "npm --prefix apps/web run start",
+    "dev:api": "cd apps/api && uvicorn main:app --reload --port 8000",
+    "test:api": "cd apps/api && python test_api.py"
+  },
+  "workspaces": [
+    "apps/*"
+  ]
+}
