@@ -89,7 +89,7 @@ class PDFReportGenerator:
 
         # 5. Victim Impact Statement
         story.append(Paragraph("5. VICTIM IMPACT STATEMENT", heading_style))
-        story.append(Paragraph("<i>"This unauthorized manipulated post and false claim has caused severe psychological distress, personal harassment, and significant harm to the victim's professional reputation. The unconsented viral circulation is creating ongoing public defamation and safety concerns for the victim, requiring immediate restriction and global content removal."</i>", body_style))
+        story.append(Paragraph("<i>\"This unauthorized manipulated post and false claim has caused severe psychological distress, personal harassment, and significant harm to the victim's professional reputation. The unconsented viral circulation is creating ongoing public defamation and safety concerns for the victim, requiring immediate restriction and global content removal.\"</i>", body_style))
         story.append(Spacer(1, 12))
 
         story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor('#cbd5e1'), spaceBefore=5, spaceAfter=8))
