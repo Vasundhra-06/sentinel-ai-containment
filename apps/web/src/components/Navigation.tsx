@@ -1,4 +1,5 @@
 'use client';
+import { SentinelLogo } from './SentinelLogo';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -119,9 +120,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
       >
         {/* Brand Header */}
         <div className="p-5 border-b border-slate-800/80 flex items-center gap-3 bg-slate-900/40">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-violet-600 flex items-center justify-center shadow-lg shadow-cyan-500/25 border border-cyan-400/30 flex-shrink-0">
-            <Shield className="w-5 h-5 text-white" />
-          </div>
+          <SentinelLogo className="w-11 h-11" />
           <div className="flex-1">
             <h1 className="font-extrabold text-base tracking-wider text-white flex items-center gap-1.5 leading-none">
               SENTINEL
