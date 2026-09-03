@@ -24,7 +24,7 @@ function DetectionWorkbenchForm() {
 
   // Section 4: Apps to Search
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['Instagram', 'X (Twitter)', 'Facebook', 'YouTube', 'Reddit']);
-  const [consentChecked, setConsentChecked] = useState(true);
+  const [consentChecked, setConsentChecked] = useState(false);
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode');
 
@@ -281,7 +281,7 @@ function DetectionWorkbenchForm() {
           </div>
 
           <div className="grid grid-cols-3 gap-2">
-            {['Instagram', 'X (Twitter)', 'Facebook', 'YouTube', 'Reddit', 'Telegram'].map((platform) => {
+            {['Instagram', 'X (Twitter)', 'Facebook', 'YouTube', 'Reddit'].map((platform) => {
               const isSelected = selectedPlatforms.includes(platform);
               return (
                 <button
@@ -301,19 +301,26 @@ function DetectionWorkbenchForm() {
             })}
           </div>
 
-          <div className="p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/30 space-y-1.5">
+          <div className={`p-3 rounded-xl transition-all space-y-1.5 ${
+            consentChecked 
+              ? 'bg-emerald-950/20 border border-emerald-500/40' 
+              : 'bg-slate-950/80 border border-amber-500/40'
+          }`}>
             <label className="flex items-start gap-3 cursor-pointer">
               <input
                 type="checkbox"
                 checked={consentChecked}
                 onChange={(e) => setConsentChecked(e.target.checked)}
-                className="mt-1 w-4 h-4 rounded text-cyan-500 focus:ring-0"
+                className="mt-1 w-4 h-4 rounded text-cyan-500 focus:ring-0 cursor-pointer"
               />
               <div className="text-xs text-slate-300 leading-relaxed">
-                I allow SENTINEL to search social media apps and save proof to help remove fake posts targeting my name <strong>({socialMediaName})</strong>.
+                I allow SENTINEL to search social media apps and save proof to help remove fake posts targeting my name <strong>({socialMediaName || 'your name'})</strong>.
               </div>
             </label>
-            <p className="font-bold text-emerald-400 text-[11px] pl-7">Permission Status: GRANTED</p>
+            <p className={`font-bold text-[11px] pl-7 flex items-center gap-1.5 ${consentChecked ? 'text-emerald-400' : 'text-amber-400'}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${consentChecked ? 'bg-emerald-400' : 'bg-amber-400 animate-pulse'}`} />
+              Permission Status: {consentChecked ? 'GRANTED' : 'REQUIRED (Please click the checkbox above to grant search authorization)'}
+            </p>
           </div>
         </div>
 
