@@ -95,7 +95,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { name: 'Home Dashboard', path: '/dashboard', icon: LayoutDashboard },
-    { name: 'Search Fake Posts & Leaks', path: '/detections', icon: Search, badge: 'Search' },
+    { name: 'User Input', path: '/detections', icon: Pencil, badge: 'Input' },
     { name: 'Main Cases', path: '/incidents', icon: AlertTriangle },
     { name: 'Takedown Requests', path: '/reports', icon: Send },
   ];
@@ -201,7 +201,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
               href="/detections"
               className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white font-bold text-xs shadow-lg shadow-cyan-500/25 transition-all flex items-center gap-2"
             >
-              <Search className="w-3.5 h-3.5" /> Search Fake Posts
+              <Pencil className="w-3.5 h-3.5" /> User Input
             </Link>
 
             {/* NOTIFICATION BELL BUTTON */}

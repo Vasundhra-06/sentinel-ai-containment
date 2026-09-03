@@ -212,10 +212,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* INTERACTIVE SPREAD MAP & PROPAGATION TOPOLOGY GRAPH */}
-      <div className="space-y-4">
-        <PropagationGraph />
-      </div>
+
 
       {/* VISUAL SPREAD VELOCITY & TAKEDOWN TIMELINE ANALYTICS */}
       <div className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-6 shadow-xl">

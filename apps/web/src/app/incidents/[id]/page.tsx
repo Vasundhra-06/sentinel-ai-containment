@@ -232,7 +232,6 @@ export default function IncidentDetailPage() {
       <div className="flex border-b border-slate-800 space-x-2 text-xs font-bold overflow-x-auto">
         {[
           { id: 'socialSpread', label: 'Spread in Each Social App (X & Y Graph)', icon: BarChart2 },
-          { id: 'reports', label: 'Takedown Requests & Evidence Sent', icon: Send },
           { id: 'occurrences', label: 'Found Fake Posts (27)', icon: AlertTriangle },
           { id: 'propagation', label: 'Post Spread Map', icon: Network },
         ].map((tab) => {
@@ -419,99 +418,6 @@ export default function IncidentDetailPage() {
       )}
 
       {/* TAB: Takedown Requests & Evidence Sent */}
-      {activeTab === 'reports' && (
-        <div className="glass-card p-7 rounded-3xl border border-slate-800/80 bg-slate-900/80 space-y-6 shadow-xl">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
-            <div>
-              <span className="text-[10px] font-extrabold tracking-widest text-cyan-400 uppercase">EVIDENCE & TAKEDOWN LOG</span>
-              <h3 className="text-lg font-extrabold text-white flex items-center gap-2 mt-0.5">
-                <Send className="w-5 h-5 text-cyan-400" /> Platform Review Requests & Evidence Sent
-              </h3>
-              <p className="text-xs text-slate-400 mt-1">View the exact evidence collected, digital match fingerprints, and takedown packages sent to each social media owner team.</p>
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            {reportsWithEvidence.map((rpt) => (
-              <div key={rpt.id} className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-950/80 space-y-4 shadow-xl hover:border-cyan-500/40 transition-all">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono font-bold text-cyan-400">{rpt.id}</span>
-                    <span className="text-sm font-extrabold text-white">{rpt.platform}</span>
-                    <span className="text-[10px] px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 font-medium">
-                      Owner: <strong className="text-slate-100">{rpt.ownerTeam}</strong>
-                    </span>
-                  </div>
-                  <span className={`text-[10px] px-2.5 py-1 rounded font-black uppercase tracking-wider border ${rpt.statusColor}`}>
-                    Status: {rpt.status}
-                  </span>
-                </div>
-
-                <div className="space-y-2 text-xs">
-                  <div className="text-slate-300">Policy Category: <strong className="text-white">{rpt.policyCategory}</strong></div>
-                  <p className="text-slate-400 italic bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-[11px]">
-                    "{rpt.responseDetails}"
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-900 border border-slate-800/80 space-y-3 text-xs">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Lock className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="font-bold text-slate-200">Collected Evidence & Fingerprint Sent To {rpt.platform}</span>
-                    </div>
-                    <span className="text-[10px] font-mono text-cyan-400 font-bold">{rpt.matchScore}% Visual Match</span>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] font-mono text-slate-300">
-                    <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800/80">
-                      <span className="text-slate-500 block text-[10px]">Evidence Item</span>
-                      <strong className="text-cyan-300 font-sans text-xs">{rpt.evidenceId}: {rpt.evidenceName}</strong>
-                    </div>
-                    <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800/80">
-                      <span className="text-slate-500 block text-[10px]">Image Match Code (pHash)</span>
-                      <strong className="text-violet-300 font-mono text-xs">{rpt.pHash}</strong>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800/80 font-mono text-[10px] text-slate-400 break-all">
-                    SHA-256 Checksum: <span className="text-cyan-300">{rpt.sha256}</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center justify-between pt-2 gap-2 text-xs">
-                  <span className="text-slate-500 text-[11px]">Sent on: {rpt.dateSent}</span>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setSelectedEvidenceModal(rpt)}
-                      className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5"
-                    >
-                      <FileText className="w-3.5 h-3.5 text-cyan-400" /> Evidence Collected
-                    </button>
-
-                    <button
-                      onClick={() => setSelectedFingerprintModal(rpt)}
-                      className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5"
-                    >
-                      <Fingerprint className="w-3.5 h-3.5 text-violet-400" /> Fingerprint Code
-                    </button>
-
-                    <button
-                      onClick={() => handleOpenDossier(rpt)}
-                      className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white text-xs font-extrabold shadow-md shadow-cyan-950/40 transition-all flex items-center gap-1.5"
-                    >
-                      <Download className="w-3.5 h-3.5" /> View Sent Dossier Package
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* TAB: Occurrences */}
       {activeTab === 'occurrences' && (
         <div className="glass-card p-7 rounded-3xl border border-slate-800/80 bg-slate-900/80 space-y-4">
           <h3 className="text-sm font-bold text-white">Found Fake Posts Across Platforms (27)</h3>

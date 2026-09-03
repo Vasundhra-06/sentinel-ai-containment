@@ -136,13 +136,13 @@ function DetectionWorkbenchForm() {
       <div className="glass-card p-6 rounded-2xl border border-cyan-500/20 bg-slate-900/90 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-extrabold tracking-widest text-cyan-400 uppercase">SEARCH FAKE POSTS & LEAKS</span>
+            <span className="text-[10px] font-extrabold tracking-widest text-cyan-400 uppercase">USER INPUT</span>
             <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold flex items-center gap-1">
               <Lock className="w-2.5 h-2.5" /> Protected
             </span>
           </div>
           <h1 className="text-2xl font-extrabold text-white flex items-center gap-2">
-            Search Social Media For Fake Posts About You
+            User Input - Search For Unusual Content
           </h1>
           <p className="text-xs text-slate-400 mt-1">Enter your name, upload a picture, or describe any false rumors to search Instagram, X, Facebook, and YouTube for matching posts.</p>
         </div>
