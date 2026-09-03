@@ -195,6 +195,13 @@ export function Navigation({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="flex items-center gap-4 relative">
+            {/* User Input Top Button */}
+            <Link
+              href="/detections"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white font-extrabold text-xs shadow-lg shadow-cyan-500/25 transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <Pencil className="w-3.5 h-3.5" /> User Input
+            </Link>
 
 
             {/* NOTIFICATION BELL BUTTON */}
@@ -405,19 +412,19 @@ export function Navigation({ children }: { children: React.ReactNode }) {
             <div className="pt-4 border-t border-slate-800 space-y-3">
               <div className="flex flex-col sm:flex-row gap-2">
                 <Link
-                  href="/incidents/1"
+                  href="/detections?mode=edit"
                   onClick={() => setIsProfileModalOpen(false)}
                   className="flex-1 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs border border-cyan-500/30 flex items-center justify-center gap-1.5 transition-all shadow-md"
                 >
-                  <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" /> View Monitored Incidents
+                  <Pencil className="w-3.5 h-3.5 text-cyan-400" /> Edit Existing Search Input
                 </Link>
 
                 <Link
-                  href="/reports"
+                  href="/detections?mode=new"
                   onClick={() => setIsProfileModalOpen(false)}
                   className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white font-extrabold text-xs shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-1.5 transition-all"
                 >
-                  <FileText className="w-3.5 h-3.5" /> View Active Reports
+                  <PlusCircle className="w-3.5 h-3.5" /> Add New Search Project
                 </Link>
               </div>
 

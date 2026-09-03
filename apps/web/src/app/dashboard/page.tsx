@@ -101,7 +101,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Main Stats Metrics */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="glass-card p-4 rounded-xl border border-slate-800 bg-slate-900/80">
           <span className="text-[11px] text-slate-400 font-semibold block">Main Cases</span>
           <span className="text-2xl font-black text-white mt-1 block">1 Case</span>
@@ -114,11 +114,7 @@ export default function DashboardPage() {
           <span className="text-[10px] text-slate-400 block mt-1">Across 4 Apps</span>
         </div>
 
-        <div className="glass-card p-4 rounded-xl border border-slate-800 bg-slate-900/80">
-          <span className="text-[11px] text-slate-400 font-semibold block">Saved Proof Logs</span>
-          <span className="text-2xl font-black text-cyan-400 mt-1 block">18 Items</span>
-          <span className="text-[10px] text-slate-400 block mt-1">Screenshots & Hashes</span>
-        </div>
+
 
         <div className="glass-card p-4 rounded-xl border border-slate-800 bg-slate-900/80">
           <span className="text-[11px] text-slate-400 font-semibold block">Posts Removed</span>
