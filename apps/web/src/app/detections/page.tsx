@@ -22,6 +22,7 @@ function DetectionWorkbenchForm() {
   // Section 3: Describe the Fake News or Rumor
   const [unusualNews, setUnusualNews] = useState('');
   const [newsCategory, setNewsCategory] = useState('Edited Photo / Fake Picture');
+  const [customNewsCategory, setCustomNewsCategory] = useState('');
 
   // Section 4: Apps to Search
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['Instagram', 'X (Twitter)', 'Facebook', 'YouTube', 'Reddit']);
@@ -327,7 +328,7 @@ function DetectionWorkbenchForm() {
               </div>
             </div>
             <span className="text-[9px] font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/25">
-              STEP 3 OF 4
+              INCIDENT DETAILS
             </span>
           </div>
 
@@ -354,7 +355,25 @@ function DetectionWorkbenchForm() {
               <option value="False Rumor / Bad Post">False Rumor / Bad Post</option>
               <option value="Personal Details Leaked">Personal Details Leaked</option>
               <option value="Scam / Fake Link">Scam / Fake Link</option>
+              <option value="Others">Others (Type your own)</option>
             </select>
+
+            {/* Custom Input Box if 'Others' is selected */}
+            {newsCategory === 'Others' && (
+              <div className="pt-2 animate-in fade-in duration-200">
+                <label className="block text-[11px] font-bold text-amber-300 mb-1">
+                  Type your specific kind of fake post or leak:
+                </label>
+                <input
+                  type="text"
+                  value={customNewsCategory}
+                  onChange={(e) => setCustomNewsCategory(e.target.value)}
+                  placeholder="e.g., Deepfake Audio Call, Fake Resignation Letter, Defamatory Comment, WhatsApp Forward..."
+                  className="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-amber-500/50 text-slate-100 text-xs focus:outline-none focus:border-amber-400 transition-all font-medium shadow-inner"
+                  autoFocus
+                />
+              </div>
+            )}
           </div>
         </div>
 
