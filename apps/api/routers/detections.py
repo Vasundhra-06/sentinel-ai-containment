@@ -16,6 +16,9 @@ async def scan_live_media(
     keywords: Optional[str] = Form(None),
     incident_id: str = Form("HC-2041"),
     file: Optional[UploadFile] = File(None),
+    file1: Optional[UploadFile] = File(None),
+    file2: Optional[UploadFile] = File(None),
+    file3: Optional[UploadFile] = File(None),
     db: Session = Depends(get_db)
 ):
     """

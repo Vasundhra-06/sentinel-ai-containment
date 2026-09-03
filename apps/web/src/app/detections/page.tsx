@@ -14,9 +14,10 @@ function DetectionWorkbenchForm() {
   const [profession, setProfession] = useState('Research Scientist & Content Creator');
   const [socialHandles, setSocialHandles] = useState('@evelyn_carter, @drcarter_bio');
   
-  // Section 2: Reference Image Upload
-  const [userImageFile, setUserImageFile] = useState<File | null>(null);
-  const [userImagePreview, setUserImagePreview] = useState<string | null>(null);
+  // Section 2: 3 Different Angle Reference Photos
+  const [photoAngle1, setPhotoAngle1] = useState<{ file: File | null; preview: string | null }>({ file: null, preview: null });
+  const [photoAngle2, setPhotoAngle2] = useState<{ file: File | null; preview: string | null }>({ file: null, preview: null });
+  const [photoAngle3, setPhotoAngle3] = useState<{ file: File | null; preview: string | null }>({ file: null, preview: null });
 
   // Section 3: Describe the Fake News or Rumor
   const [unusualNews, setUnusualNews] = useState('');
@@ -34,8 +35,9 @@ function DetectionWorkbenchForm() {
       setProfession('');
       setSocialHandles('');
       setUnusualNews('');
-      setUserImagePreview(null);
-      setUserImageFile(null);
+      setPhotoAngle1({ file: null, preview: null });
+      setPhotoAngle2({ file: null, preview: null });
+      setPhotoAngle3({ file: null, preview: null });
       setHasScanned(false);
     } else if (mode === 'edit') {
       if (!socialMediaName) setSocialMediaName('Dr. Evelyn Carter');
@@ -52,13 +54,15 @@ function DetectionWorkbenchForm() {
   const [detectedLeaks, setDetectedLeaks] = useState<any[]>([]);
   const [imageMetadata, setImageMetadata] = useState<{ phash: string; dhash: string; sha256: string; filename?: string } | null>(null);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoUpload = (angle: 1 | 2 | 3, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setUserImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setUserImagePreview(reader.result as string);
+        const preview = reader.result as string;
+        if (angle === 1) setPhotoAngle1({ file, preview });
+        else if (angle === 2) setPhotoAngle2({ file, preview });
+        else if (angle === 3) setPhotoAngle3({ file, preview });
       };
       reader.readAsDataURL(file);
     }
@@ -85,8 +89,15 @@ function DetectionWorkbenchForm() {
       formData.append('handles', socialHandles || '@user');
       formData.append('job_title', profession || '');
       formData.append('keywords', unusualNews || '');
-      if (userImageFile) {
-        formData.append('file', userImageFile);
+      if (photoAngle1.file) {
+        formData.append('file', photoAngle1.file);
+        formData.append('file1', photoAngle1.file);
+      }
+      if (photoAngle2.file) {
+        formData.append('file2', photoAngle2.file);
+      }
+      if (photoAngle3.file) {
+        formData.append('file3', photoAngle3.file);
       }
 
       const res = await fetch('http://127.0.0.1:8000/api/v1/detections/scan', {
@@ -196,46 +207,105 @@ function DetectionWorkbenchForm() {
           </div>
         </div>
 
-        {/* SECTION 2: Reference Image Upload */}
+        {/* SECTION 2: 3 Different Angle Reference Photos */}
         <div className="space-y-3 border-b border-slate-800/80 pb-4">
-          <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm">
-            <ImageIcon className="w-4 h-4" /> 
-            <span>Upload Your Photo or Screenshot to Search</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm">
+              <ImageIcon className="w-4 h-4" /> 
+              <span>Upload 3 Different Angle Photos *</span>
+            </div>
+            <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 font-bold">
+              {[photoAngle1.file, photoAngle2.file, photoAngle3.file].filter(Boolean).length}/3 Uploaded
+            </span>
           </div>
+          <p className="text-[11px] text-slate-400">
+            Please upload 3 different angles of your face (Front, Left Profile, Right Profile) so our AI can accurately catch edited deepfakes and crops.
+          </p>
 
-          <div className="border border-dashed border-cyan-500/30 hover:border-cyan-500/60 rounded-xl p-3.5 bg-slate-950/50 text-center transition-all cursor-pointer relative">
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              id="user-leak-image-input"
-              onChange={handleImageUpload}
-            />
-            
-            <label htmlFor="user-leak-image-input" className="cursor-pointer block">
-              {userImagePreview ? (
-                <div className="flex items-center justify-center gap-4 py-1">
-                  <img src={userImagePreview} alt="Uploaded Photo" className="h-16 w-16 rounded-lg border border-cyan-500/50 object-cover shadow-md" />
-                  <div className="text-left space-y-0.5">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-cyan-300">{userImageFile?.name || 'Selected Photo'}</span>
-                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">Photo Ready</span>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            {/* ANGLE 1: Front Face View */}
+            <div className="border border-dashed border-cyan-500/30 hover:border-cyan-500/60 rounded-xl p-3 bg-slate-950/50 text-center transition-all relative">
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                id="photo-angle-1"
+                onChange={(e) => handlePhotoUpload(1, e)}
+              />
+              <label htmlFor="photo-angle-1" className="cursor-pointer block space-y-2">
+                <span className="text-[10px] font-extrabold text-cyan-400 uppercase tracking-wider block">Angle 1: Front View *</span>
+                {photoAngle1.preview ? (
+                  <div className="space-y-1.5 py-0.5">
+                    <img src={photoAngle1.preview} alt="Front View" className="h-16 w-16 mx-auto rounded-lg border border-cyan-500/50 object-cover shadow-md" />
+                    <span className="text-[9px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold inline-block">Front Ready</span>
+                  </div>
+                ) : (
+                  <div className="py-2.5 space-y-1">
+                    <div className="w-7 h-7 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center mx-auto">
+                      <Upload className="w-3.5 h-3.5" />
                     </div>
-                    <span className="text-[10px] text-slate-400 block">Click here to replace with a different photo</span>
+                    <span className="text-[11px] font-bold text-slate-200 block">Upload Front Photo</span>
+                    <span className="text-[9px] text-slate-400 block">Direct face view</span>
                   </div>
-                </div>
-              ) : (
-                <div className="flex items-center justify-center gap-3 py-1.5">
-                  <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center flex-shrink-0">
-                    <Upload className="w-4 h-4" />
+                )}
+              </label>
+            </div>
+
+            {/* ANGLE 2: Left Side Profile */}
+            <div className="border border-dashed border-cyan-500/30 hover:border-cyan-500/60 rounded-xl p-3 bg-slate-950/50 text-center transition-all relative">
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                id="photo-angle-2"
+                onChange={(e) => handlePhotoUpload(2, e)}
+              />
+              <label htmlFor="photo-angle-2" className="cursor-pointer block space-y-2">
+                <span className="text-[10px] font-extrabold text-cyan-400 uppercase tracking-wider block">Angle 2: Left Profile *</span>
+                {photoAngle2.preview ? (
+                  <div className="space-y-1.5 py-0.5">
+                    <img src={photoAngle2.preview} alt="Left Profile" className="h-16 w-16 mx-auto rounded-lg border border-cyan-500/50 object-cover shadow-md" />
+                    <span className="text-[9px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold inline-block">Left Ready</span>
                   </div>
-                  <div className="text-left">
-                    <span className="text-xs font-bold text-slate-200 block">Click to upload your photo or screenshot</span>
-                    <span className="text-[10px] text-slate-400 block">We will check if modified or edited copies are circulating online</span>
+                ) : (
+                  <div className="py-2.5 space-y-1">
+                    <div className="w-7 h-7 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center mx-auto">
+                      <Upload className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="text-[11px] font-bold text-slate-200 block">Upload Left Side</span>
+                    <span className="text-[9px] text-slate-400 block">45° left profile</span>
                   </div>
-                </div>
-              )}
-            </label>
+                )}
+              </label>
+            </div>
+
+            {/* ANGLE 3: Right Side Profile */}
+            <div className="border border-dashed border-cyan-500/30 hover:border-cyan-500/60 rounded-xl p-3 bg-slate-950/50 text-center transition-all relative">
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                id="photo-angle-3"
+                onChange={(e) => handlePhotoUpload(3, e)}
+              />
+              <label htmlFor="photo-angle-3" className="cursor-pointer block space-y-2">
+                <span className="text-[10px] font-extrabold text-cyan-400 uppercase tracking-wider block">Angle 3: Right Profile *</span>
+                {photoAngle3.preview ? (
+                  <div className="space-y-1.5 py-0.5">
+                    <img src={photoAngle3.preview} alt="Right Profile" className="h-16 w-16 mx-auto rounded-lg border border-cyan-500/50 object-cover shadow-md" />
+                    <span className="text-[9px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold inline-block">Right Ready</span>
+                  </div>
+                ) : (
+                  <div className="py-2.5 space-y-1">
+                    <div className="w-7 h-7 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center mx-auto">
+                      <Upload className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="text-[11px] font-bold text-slate-200 block">Upload Right Side</span>
+                    <span className="text-[9px] text-slate-400 block">45° right profile</span>
+                  </div>
+                )}
+              </label>
+            </div>
           </div>
         </div>
 
