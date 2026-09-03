@@ -131,9 +131,9 @@ function DetectionWorkbenchForm() {
   };
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto font-sans">
+    <div className="space-y-4 max-w-4xl mx-auto font-sans">
       {/* Header Banner */}
-      <div className="glass-card p-6 rounded-2xl border border-cyan-500/20 bg-slate-900/90 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="glass-card p-4 sm:p-5 rounded-2xl border border-cyan-500/20 bg-slate-900/90 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[10px] font-extrabold tracking-widest text-cyan-400 uppercase">USER INPUT</span>
@@ -141,7 +141,7 @@ function DetectionWorkbenchForm() {
               <Lock className="w-2.5 h-2.5" /> Protected
             </span>
           </div>
-          <h1 className="text-2xl font-extrabold text-white flex items-center gap-2">
+          <h1 className="text-xl font-extrabold text-white flex items-center gap-2">
             User Input - Search For Unusual Content
           </h1>
           <p className="text-xs text-slate-400 mt-1">Enter your name, upload a picture, or describe any false rumors to search Instagram, X, Facebook, and YouTube for matching posts.</p>
@@ -152,7 +152,7 @@ function DetectionWorkbenchForm() {
       <div className="glass-card p-8 rounded-2xl border border-slate-800 bg-slate-900/80 space-y-8 shadow-2xl">
 
         {/* SECTION 1: Your Name & Profile */}
-        <div className="space-y-4 border-b border-slate-800 pb-6">
+        <div className="space-y-3 border-b border-slate-800/80 pb-4">
           <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm">
             <UserCheck className="w-4 h-4" /> 
             <span>Your Name & Social Media Profiles</span>
@@ -166,7 +166,7 @@ function DetectionWorkbenchForm() {
                 value={socialMediaName}
                 onChange={(e) => setSocialMediaName(e.target.value)}
                 placeholder="Enter your name as shown on Instagram, Facebook, X..."
-                className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-cyan-500/60 transition-all font-medium"
+                className="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-cyan-500/60 transition-all font-medium"
               />
               <span className="text-[10px] text-slate-400 mt-1 block">We will search social media for posts targeting this name.</span>
             </div>
@@ -178,7 +178,7 @@ function DetectionWorkbenchForm() {
                 value={profession}
                 onChange={(e) => setProfession(e.target.value)}
                 placeholder="e.g., Content Creator, Student, Doctor, Engineer, Teacher"
-                className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-cyan-500/60 transition-all font-medium"
+                className="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-cyan-500/60 transition-all font-medium"
               />
               <span className="text-[10px] text-slate-400 mt-1 block">Your job title listed in your social media bio.</span>
             </div>
@@ -191,19 +191,19 @@ function DetectionWorkbenchForm() {
               value={socialHandles}
               onChange={(e) => setSocialHandles(e.target.value)}
               placeholder="@username1, @username2"
-              className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-cyan-500/60 transition-all font-medium"
+              className="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-cyan-500/60 transition-all font-medium"
             />
           </div>
         </div>
 
         {/* SECTION 2: Reference Image Upload */}
-        <div className="space-y-4 border-b border-slate-800 pb-6">
+        <div className="space-y-3 border-b border-slate-800/80 pb-4">
           <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm">
             <ImageIcon className="w-4 h-4" /> 
             <span>Upload Your Photo or Screenshot to Search</span>
           </div>
 
-          <div className="border-2 border-dashed border-cyan-500/30 hover:border-cyan-500/60 rounded-2xl p-6 bg-slate-950/60 text-center transition-all cursor-pointer relative">
+          <div className="border border-dashed border-cyan-500/30 hover:border-cyan-500/60 rounded-xl p-3.5 bg-slate-950/50 text-center transition-all cursor-pointer relative">
             <input
               type="file"
               accept="image/*"
@@ -212,33 +212,35 @@ function DetectionWorkbenchForm() {
               onChange={handleImageUpload}
             />
             
-            <label htmlFor="user-leak-image-input" className="cursor-pointer block space-y-3">
+            <label htmlFor="user-leak-image-input" className="cursor-pointer block">
               {userImagePreview ? (
-                <div className="space-y-3">
-                  <img src={userImagePreview} alt="Uploaded Photo" className="h-40 mx-auto rounded-xl border-2 border-cyan-500/50 object-cover shadow-xl" />
-                  <div className="flex items-center justify-center gap-2">
-                    <span className="text-xs font-bold text-cyan-300">{userImageFile?.name}</span>
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">Photo Ready</span>
+                <div className="flex items-center justify-center gap-4 py-1">
+                  <img src={userImagePreview} alt="Uploaded Photo" className="h-16 w-16 rounded-lg border border-cyan-500/50 object-cover shadow-md" />
+                  <div className="text-left space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-cyan-300">{userImageFile?.name || 'Selected Photo'}</span>
+                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">Photo Ready</span>
+                    </div>
+                    <span className="text-[10px] text-slate-400 block">Click here to replace with a different photo</span>
                   </div>
-                  <span className="text-[10px] text-slate-400 block">Click to upload a different photo</span>
                 </div>
               ) : (
-                <>
-                  <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center mx-auto">
-                    <Upload className="w-6 h-6" />
+                <div className="flex items-center justify-center gap-3 py-1.5">
+                  <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center flex-shrink-0">
+                    <Upload className="w-4 h-4" />
                   </div>
-                  <div>
-                    <span className="text-xs font-bold text-slate-200 block">Click here to upload your photo or screenshot</span>
-                    <span className="text-[10px] text-slate-400 block mt-1">We will check if modified or edited copies of your picture are posted online</span>
+                  <div className="text-left">
+                    <span className="text-xs font-bold text-slate-200 block">Click to upload your photo or screenshot</span>
+                    <span className="text-[10px] text-slate-400 block">We will check if modified or edited copies are circulating online</span>
                   </div>
-                </>
+                </div>
               )}
             </label>
           </div>
         </div>
 
         {/* SECTION 3: Describe the Fake News or Rumor */}
-        <div className="space-y-4 border-b border-slate-800 pb-6">
+        <div className="space-y-3 border-b border-slate-800/80 pb-4">
           <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
             <AlertTriangle className="w-4 h-4" /> 
             <span>Describe the Fake News, Rumor, or Leak</span>
@@ -249,9 +251,9 @@ function DetectionWorkbenchForm() {
             <textarea
               value={unusualNews}
               onChange={(e) => setUnusualNews(e.target.value)}
-              rows={3}
-              placeholder="e.g., Someone edited my photo with false text on Instagram, fake rumor spread on Facebook, fake quote posted about me..."
-              className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-cyan-500/60 transition-all font-medium resize-none"
+              rows={2}
+              placeholder="e.g., Someone edited my photo with false text on Instagram, fake rumor spread on Facebook..."
+              className="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-cyan-500/60 transition-all font-medium resize-none"
             />
           </div>
 
@@ -260,7 +262,7 @@ function DetectionWorkbenchForm() {
             <select
               value={newsCategory}
               onChange={(e) => setNewsCategory(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-cyan-500/60 transition-all font-medium"
+              className="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-cyan-500/60 transition-all font-medium"
             >
               <option value="Edited Photo / Fake Picture">Edited Photo / Fake Picture</option>
               <option value="Fake Account & Stolen Name">Fake Account & Stolen Name</option>
@@ -286,7 +288,7 @@ function DetectionWorkbenchForm() {
                   key={platform}
                   type="button"
                   onClick={() => togglePlatform(platform)}
-                  className={`p-3 rounded-xl text-xs font-bold transition-all border flex items-center justify-center gap-2 ${
+                  className={`py-2 px-2.5 rounded-lg text-xs font-bold transition-all border flex items-center justify-center gap-1.5 ${
                     isSelected
                       ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-md shadow-cyan-950/40'
                       : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-white'
@@ -299,7 +301,7 @@ function DetectionWorkbenchForm() {
             })}
           </div>
 
-          <div className="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/30 space-y-2">
+          <div className="p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/30 space-y-1.5">
             <label className="flex items-start gap-3 cursor-pointer">
               <input
                 type="checkbox"
