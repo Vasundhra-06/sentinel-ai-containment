@@ -171,7 +171,7 @@ function DetectionWorkbenchForm() {
 
           <div className="grid grid-cols-1 gap-3">
             <div>
-              <label className="block text-xs font-bold text-slate-200 mb-1">Name you use on social media *</label>
+              <label className="block text-xs font-bold text-slate-200 mb-1 flex items-center justify-between"><span>Name you use on social media *</span><span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/15 text-cyan-300 font-bold border border-cyan-500/30">REQUIRED</span></label>
               <input
                 type="text"
                 value={socialMediaName}
@@ -183,7 +183,7 @@ function DetectionWorkbenchForm() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-200 mb-1">Your Job or Profession mentioned online *</label>
+              <label className="block text-xs font-bold text-slate-200 mb-1 flex items-center justify-between"><span>Your Job or Profession mentioned online *</span><span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-medium border border-slate-700">OPTIONAL</span></label>
               <input
                 type="text"
                 value={profession}
@@ -196,7 +196,7 @@ function DetectionWorkbenchForm() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-200 mb-1">Your Social Media Handles (@username)</label>
+            <label className="block text-xs font-bold text-slate-200 mb-1 flex items-center justify-between"><span>Your Social Media Handles (@username)</span><span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/15 text-cyan-300 font-bold border border-cyan-500/30">HANDLES</span></label>
             <input
               type="text"
               value={socialHandles}
@@ -209,13 +209,18 @@ function DetectionWorkbenchForm() {
 
         {/* SECTION 2: 3 Different Angle Reference Photos */}
         <div className="space-y-3 border-b border-slate-800/80 pb-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm">
-              <ImageIcon className="w-4 h-4" /> 
-              <span>Upload 3 Different Angle Photos *</span>
+          <div className="flex items-center justify-between bg-gradient-to-r from-blue-950/70 via-slate-900/60 to-transparent p-2.5 rounded-xl border border-blue-500/25 shadow-sm">
+            <div className="flex items-center gap-2.5">
+              <span className="w-6 h-6 rounded-lg bg-blue-500/20 text-blue-300 border border-blue-500/40 font-mono font-black text-xs flex items-center justify-center shadow-inner">
+                2
+              </span>
+              <div className="flex items-center gap-1.5 text-blue-300 font-extrabold text-xs sm:text-sm tracking-wide">
+                <ImageIcon className="w-4 h-4 text-blue-400" />
+                <span>Upload 3 Different Angle Photos *</span>
+              </div>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 font-bold">
-              {[photoAngle1.file, photoAngle2.file, photoAngle3.file].filter(Boolean).length}/3 Uploaded
+            <span className="text-[9px] font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/25">
+              {[photoAngle1.file, photoAngle2.file, photoAngle3.file].filter(Boolean).length}/3 READY
             </span>
           </div>
           <p className="text-[11px] text-slate-400">
@@ -311,13 +316,23 @@ function DetectionWorkbenchForm() {
 
         {/* SECTION 3: Describe the Fake News or Rumor */}
         <div className="space-y-3 border-b border-slate-800/80 pb-4">
-          <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
-            <AlertTriangle className="w-4 h-4" /> 
-            <span>Describe the Fake News, Rumor, or Leak</span>
+          <div className="flex items-center justify-between bg-gradient-to-r from-amber-950/70 via-slate-900/60 to-transparent p-2.5 rounded-xl border border-amber-500/25 shadow-sm">
+            <div className="flex items-center gap-2.5">
+              <span className="w-6 h-6 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 font-mono font-black text-xs flex items-center justify-center shadow-inner">
+                3
+              </span>
+              <div className="flex items-center gap-1.5 text-amber-300 font-extrabold text-xs sm:text-sm tracking-wide">
+                <AlertTriangle className="w-4 h-4 text-amber-400" />
+                <span>Describe the Fake News, Rumor, or Leak</span>
+              </div>
+            </div>
+            <span className="text-[9px] font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/25">
+              STEP 3 OF 4
+            </span>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-200 mb-1">What fake statement, rumor, or picture is being spread about you? *</label>
+            <label className="block text-xs font-bold text-slate-200 mb-1 flex items-center justify-between"><span>What fake statement, rumor, or picture is being spread about you? *</span><span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-300 font-bold border border-amber-500/30">INCIDENT DETAIL</span></label>
             <textarea
               value={unusualNews}
               onChange={(e) => setUnusualNews(e.target.value)}
@@ -328,7 +343,7 @@ function DetectionWorkbenchForm() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-200 mb-1">Type of Fake Post</label>
+            <label className="block text-xs font-bold text-slate-200 mb-1 flex items-center justify-between"><span>Type of Fake Post</span><span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-medium border border-slate-700">CATEGORY</span></label>
             <select
               value={newsCategory}
               onChange={(e) => setNewsCategory(e.target.value)}
@@ -345,9 +360,19 @@ function DetectionWorkbenchForm() {
 
         {/* SECTION 4: Apps to Search & Permission */}
         <div className="space-y-4">
-          <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm">
-            <Globe className="w-4 h-4" /> 
-            <span>Social Media Apps to Search</span>
+          <div className="flex items-center justify-between bg-gradient-to-r from-violet-950/70 via-slate-900/60 to-transparent p-2.5 rounded-xl border border-violet-500/25 shadow-sm">
+            <div className="flex items-center gap-2.5">
+              <span className="w-6 h-6 rounded-lg bg-violet-500/20 text-violet-300 border border-violet-500/40 font-mono font-black text-xs flex items-center justify-center shadow-inner">
+                4
+              </span>
+              <div className="flex items-center gap-1.5 text-violet-300 font-extrabold text-xs sm:text-sm tracking-wide">
+                <Globe className="w-4 h-4 text-violet-400" />
+                <span>Social Media Apps to Search</span>
+              </div>
+            </div>
+            <span className="text-[9px] font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/25">
+              {selectedPlatforms.length} APPS
+            </span>
           </div>
 
           <div className="grid grid-cols-3 gap-2">
