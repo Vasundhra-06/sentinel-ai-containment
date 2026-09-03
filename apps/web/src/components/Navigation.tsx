@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
+  Menu,
   Shield, 
   LayoutDashboard, 
   AlertTriangle, 
@@ -35,6 +36,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const [notifications, setNotifications] = useState([
     {
@@ -101,20 +103,39 @@ export function Navigation({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex h-screen w-screen bg-[#070b14] text-slate-100 overflow-hidden font-sans antialiased">
-      {/* Sidebar */}
-      <aside className="w-64 flex-shrink-0 bg-[#0b1120] border-r border-slate-800/80 flex flex-col h-full z-40 shadow-2xl">
+      {/* Mobile Drawer Backdrop */}
+      {isMobileMenuOpen && (
+        <div
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="fixed inset-0 bg-black/75 backdrop-blur-sm z-40 md:hidden animate-in fade-in duration-200"
+        />
+      )}
+
+      {/* Responsive Sidebar (Desktop Permanent + Mobile Slide-over Drawer) */}
+      <aside
+        className={`fixed md:static inset-y-0 left-0 z-50 w-72 md:w-64 flex-shrink-0 bg-[#0b1120] border-r border-slate-800/80 flex flex-col h-full shadow-2xl transition-transform duration-300 ease-in-out ${
+          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+        }`}
+      >
         {/* Brand Header */}
         <div className="p-5 border-b border-slate-800/80 flex items-center gap-3 bg-slate-900/40">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-violet-600 flex items-center justify-center shadow-lg shadow-cyan-500/25 border border-cyan-400/30 flex-shrink-0">
             <Shield className="w-5 h-5 text-white" />
           </div>
-          <div>
+          <div className="flex-1">
             <h1 className="font-extrabold text-base tracking-wider text-white flex items-center gap-1.5 leading-none">
               SENTINEL
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 font-bold">v1.0</span>
             </h1>
             <p className="text-[11px] text-slate-400 font-medium tracking-tight mt-1">AI-Based Digital Incident Containment System</p>
           </div>
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="md:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+            title="Close menu"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* Protected Profile Context Badge (ENTIRE BOX IS CLICKABLE FOR PROFILE DETAILS) */}
@@ -150,6 +171,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
               <Link
                 key={item.path}
                 href={item.path}
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={`flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-bold transition-all duration-200 ${
                   isActive
                     ? 'bg-gradient-to-r from-cyan-500/20 to-violet-500/10 text-cyan-300 border border-cyan-500/40 shadow-lg shadow-cyan-950/40'
@@ -186,11 +208,22 @@ export function Navigation({ children }: { children: React.ReactNode }) {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-full overflow-hidden relative">
-        {/* Top Header Bar */}
-        <header className="h-16 flex-shrink-0 border-b border-slate-800/80 bg-[#0b1120]/80 backdrop-blur-xl px-8 flex items-center justify-between z-20">
-          <div className="flex items-center gap-3">
-            <span className="px-2.5 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" /> ACTIVE CASE: <strong className="text-white">HC-2041</strong>
+        {/* Top Header Bar (Responsive for Mobile, Laptop & Desktop) */}
+        <header className="h-16 flex-shrink-0 border-b border-slate-800/80 bg-[#0b1120]/90 backdrop-blur-xl px-4 sm:px-8 flex items-center justify-between z-20 gap-2">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Mobile Hamburger Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="md:hidden p-2 rounded-xl bg-slate-800/80 border border-slate-700/80 text-cyan-400 hover:text-white hover:bg-slate-700 transition-all flex items-center justify-center"
+              title="Open Navigation Menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+
+            <span className="px-2 sm:px-2.5 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-[11px] sm:text-xs font-bold flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 hidden xs:inline" />
+              <span className="hidden sm:inline">ACTIVE CASE:</span>
+              <strong className="text-white">HC-2041</strong>
             </span>
           </div>
 
@@ -310,7 +343,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Dynamic Page Viewport */}
-        <main className="flex-1 overflow-y-auto p-8 bg-[#070b14]">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-[#070b14]">
           {children}
         </main>
       </div>

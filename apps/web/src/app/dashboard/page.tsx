@@ -140,7 +140,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Priority Filters */}
-          <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+          <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800 overflow-x-auto max-w-full">
             {[
               { id: 'ALL', label: 'All Leaks (5)' },
               { id: 'HIGH', label: 'High Priority (2)' },

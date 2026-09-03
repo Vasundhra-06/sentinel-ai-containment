@@ -422,7 +422,7 @@ export default function IncidentDetailPage() {
         <div className="glass-card p-7 rounded-3xl border border-slate-800/80 bg-slate-900/80 space-y-4">
           <h3 className="text-sm font-bold text-white">Found Fake Posts Across Platforms (27)</h3>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+            <table className="w-full text-left text-xs min-w-[640px]">
               <thead className="bg-slate-950 text-slate-400 uppercase font-mono text-[10px]">
                 <tr>
                   <th className="p-3">ID</th>
