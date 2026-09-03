@@ -131,7 +131,7 @@ function DetectionWorkbenchForm() {
   };
 
   return (
-    <div className="space-y-4 max-w-4xl mx-auto font-sans">
+    <div className="space-y-4 max-w-xl mx-auto font-sans">
       {/* Header Banner */}
       <div className="glass-card p-4 sm:p-5 rounded-2xl border border-cyan-500/20 bg-slate-900/90 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
@@ -158,7 +158,7 @@ function DetectionWorkbenchForm() {
             <span>Your Name & Social Media Profiles</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-200 mb-1">Name you use on social media *</label>
               <input
@@ -280,7 +280,7 @@ function DetectionWorkbenchForm() {
             <span>Social Media Apps to Search</span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             {['Instagram', 'X (Twitter)', 'Facebook', 'YouTube', 'Reddit', 'Telegram'].map((platform) => {
               const isSelected = selectedPlatforms.includes(platform);
               return (
@@ -392,7 +392,7 @@ function DetectionWorkbenchForm() {
           </div>
 
           {/* Results Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-3">
             {detectedLeaks.map((leak) => (
               <div key={leak.id} className="glass-card p-6 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-4 shadow-xl hover:border-cyan-500/40 transition-all">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-3">
