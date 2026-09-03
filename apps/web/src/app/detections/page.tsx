@@ -49,6 +49,7 @@ function DetectionWorkbenchForm() {
 
   // Section 5: Search & Results
   const [isScanning, setIsScanning] = useState(false);
+  const [isAutopilot, setIsAutopilot] = useState(true);
   const [scanStep, setScanStep] = useState(0);
   const [hasScanned, setHasScanned] = useState(false);
   const [isBreakdownOpen, setIsBreakdownOpen] = useState(false);
