@@ -44,7 +44,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
       description: 'Edited picture of Dr. Evelyn Carter detected on @viral_leak_x (96% Match).',
       time: '10 mins ago',
       read: false,
-      link: '/detections',
+      link: '/incidents/1',
       badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
       icon: ShieldAlert,
     },
@@ -93,9 +93,8 @@ export function Navigation({ children }: { children: React.ReactNode }) {
     setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
   };
 
-  const navItems = [
+  const navItems: { name: string; path: string; icon: any; badge?: string }[] = [
     { name: 'Home Dashboard', path: '/dashboard', icon: LayoutDashboard },
-    { name: 'User Input', path: '/detections', icon: Pencil, badge: 'Input' },
     { name: 'Main Cases', path: '/incidents', icon: AlertTriangle },
     { name: 'Takedown Requests', path: '/reports', icon: Send },
   ];
@@ -196,13 +195,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="flex items-center gap-4 relative">
-            {/* Quick Action Button */}
-            <Link
-              href="/detections"
-              className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white font-bold text-xs shadow-lg shadow-cyan-500/25 transition-all flex items-center gap-2"
-            >
-              <Pencil className="w-3.5 h-3.5" /> User Input
-            </Link>
+
 
             {/* NOTIFICATION BELL BUTTON */}
             <div className="relative">
@@ -412,19 +405,19 @@ export function Navigation({ children }: { children: React.ReactNode }) {
             <div className="pt-4 border-t border-slate-800 space-y-3">
               <div className="flex flex-col sm:flex-row gap-2">
                 <Link
-                  href="/detections?mode=edit"
+                  href="/incidents/1"
                   onClick={() => setIsProfileModalOpen(false)}
                   className="flex-1 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs border border-cyan-500/30 flex items-center justify-center gap-1.5 transition-all shadow-md"
                 >
-                  <Pencil className="w-3.5 h-3.5 text-cyan-400" /> Edit Existing Search Input
+                  <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" /> View Monitored Incidents
                 </Link>
 
                 <Link
-                  href="/detections?mode=new"
+                  href="/reports"
                   onClick={() => setIsProfileModalOpen(false)}
                   className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white font-extrabold text-xs shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-1.5 transition-all"
                 >
-                  <PlusCircle className="w-3.5 h-3.5" /> Add New Search Project
+                  <FileText className="w-3.5 h-3.5" /> View Active Reports
                 </Link>
               </div>
 
