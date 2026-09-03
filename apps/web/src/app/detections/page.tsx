@@ -49,6 +49,8 @@ function DetectionWorkbenchForm() {
   const [scanStep, setScanStep] = useState(0);
   const [hasScanned, setHasScanned] = useState(false);
   const [isBreakdownOpen, setIsBreakdownOpen] = useState(false);
+  const [detectedLeaks, setDetectedLeaks] = useState<any[]>([]);
+  const [imageMetadata, setImageMetadata] = useState<{ phash: string; dhash: string; sha256: string; filename?: string } | null>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -68,67 +70,65 @@ function DetectionWorkbenchForm() {
     );
   };
 
-  const handleRunLeakScan = () => {
+  const handleRunLeakScan = async () => {
     setIsScanning(true);
     setHasScanned(false);
     setScanStep(1);
 
-    setTimeout(() => setScanStep(2), 600);
-    setTimeout(() => setScanStep(3), 1200);
-    setTimeout(() => setScanStep(4), 1800);
+    const stepTimer1 = setTimeout(() => setScanStep(2), 600);
+    const stepTimer2 = setTimeout(() => setScanStep(3), 1400);
+    const stepTimer3 = setTimeout(() => setScanStep(4), 2200);
 
-    setTimeout(() => {
+    try {
+      const formData = new FormData();
+      formData.append('name', socialMediaName || 'Target Subject');
+      formData.append('handles', socialHandles || '@user');
+      formData.append('job_title', profession || '');
+      formData.append('keywords', unusualNews || '');
+      if (userImageFile) {
+        formData.append('file', userImageFile);
+      }
+
+      const res = await fetch('http://127.0.0.1:8000/api/v1/detections/scan', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.results && Array.isArray(data.results)) {
+          const mapped = data.results.map((r: any) => ({
+            id: r.id,
+            platform: r.platform,
+            account: r.account,
+            type: r.variant_type,
+            title: r.title,
+            matchScore: Math.round(r.similarity_score),
+            riskLevel: r.similarity_score >= 88 ? 'HIGH RISK' : 'MEDIUM RISK',
+            status: r.status,
+            url: r.url,
+            phash: r.phash,
+            sha256: r.sha256,
+            snippet: r.snippet,
+          }));
+          setDetectedLeaks(mapped);
+        }
+        if (data.image_metadata) {
+          setImageMetadata(data.image_metadata);
+        }
+      } else {
+        console.error('Backend scan returned non-200');
+      }
+    } catch (err) {
+      console.error('Live scan fetch error:', err);
+    } finally {
+      clearTimeout(stepTimer1);
+      clearTimeout(stepTimer2);
+      clearTimeout(stepTimer3);
       setIsScanning(false);
       setHasScanned(true);
-    }, 2400);
+    }
   };
-
-  const detectedLeaks = [
-    {
-      id: 'POST-INSTA-01',
-      platform: 'Instagram',
-      account: '@viral_leak_x',
-      type: 'Edited Picture & False Claim',
-      matchScore: 96,
-      riskLevel: 'HIGH RISK',
-      status: 'Active Post',
-      url: 'https://instagram.com/p/sample_leak_01',
-      phash: 'Image Match Code: 8f9a2b1c',
-    },
-    {
-      id: 'POST-X-02',
-      platform: 'X (Twitter)',
-      account: '@tweet_user_99',
-      type: 'Fake Tweet & Stolen Photo',
-      matchScore: 92,
-      riskLevel: 'HIGH RISK',
-      status: 'Waiting Takedown',
-      url: 'https://x.com/user/status/1948201',
-      phash: 'Image Match Code: 7e8f1a2b',
-    },
-    {
-      id: 'POST-FB-03',
-      platform: 'Facebook',
-      account: 'FB Group: Viral News India',
-      type: 'Fake Rumor Post & Video',
-      matchScore: 88,
-      riskLevel: 'MEDIUM RISK',
-      status: 'Active Post',
-      url: 'https://facebook.com/groups/posts/482910',
-      phash: 'Image Match Code: 6d5c4b3a',
-    },
-    {
-      id: 'POST-YT-04',
-      platform: 'YouTube',
-      account: 'News Channel Clip HD',
-      type: 'Fake Voice Video Clip',
-      matchScore: 84,
-      riskLevel: 'MEDIUM RISK',
-      status: 'Under Review',
-      url: 'https://youtube.com/watch?v=sample842',
-      phash: 'Image Match Code: 5b4a3c2d',
-    },
-  ];
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto font-sans">
@@ -404,8 +404,18 @@ function DetectionWorkbenchForm() {
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-bold text-white">{leak.type}</h4>
-                  <div className="text-xs font-mono text-slate-400 mt-1">Posted By: <strong className="text-slate-200">{leak.account}</strong></div>
+                  <div className="flex items-center justify-between mb-1">
+                    <h4 className="text-sm font-bold text-white">{leak.type}</h4>
+                  </div>
+                  {leak.title && (
+                    <p className="text-xs text-cyan-200/90 font-medium line-clamp-1 mb-1">{leak.title}</p>
+                  )}
+                  <div className="text-xs font-mono text-slate-400">Posted By: <strong className="text-slate-200">{leak.account}</strong></div>
+                  {leak.snippet && (
+                    <p className="text-[11px] text-slate-400 bg-slate-950/60 p-2 rounded-lg border border-slate-800/80 mt-2 line-clamp-2 italic">
+                      "{leak.snippet}"
+                    </p>
+                  )}
                 </div>
 
                 <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2 text-xs">
