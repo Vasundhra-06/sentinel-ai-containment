@@ -48,7 +48,7 @@ export function AutopilotToggle({
           </div>
           <p className="text-[11px] text-slate-400 mt-0.5">
             {isAutopilot 
-              ? 'Threats with ≥85% match are auto-verified and submitted for takedown without requiring manual clicks.' 
+              ? 'Matches with ≥75% are automatically reported & sent to social media for takedown. Matches below 75% require manual approval.' 
               : 'AI auto-prepares all evidence, awaiting your 1-click confirmation before submitting.'}
           </p>
         </div>

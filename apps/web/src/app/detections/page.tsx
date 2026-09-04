@@ -7,6 +7,7 @@ import {
   User, Image as ImageIcon, MessageSquare, Globe, AlertTriangle, ExternalLink, ShieldCheck, RefreshCw, X, Lock, CheckCircle2, UserCheck, Briefcase
 } from 'lucide-react';
 import { MatchBreakdownModal } from '@/components/MatchBreakdownModal';
+import { VerificationBreakdown } from '@/components/VerificationBreakdown';
 
 function DetectionWorkbenchForm() {
   // Section 1: Your Name & Profile
@@ -117,7 +118,7 @@ function DetectionWorkbenchForm() {
             type: r.variant_type,
             title: r.title,
             matchScore: Math.round(r.similarity_score),
-            riskLevel: r.similarity_score >= 88 ? 'HIGH RISK' : 'MEDIUM RISK',
+            riskLevel: r.similarity_score >= 75 ? 'HIGH RISK' : 'MEDIUM RISK',
             status: r.status,
             url: r.url,
             phash: r.phash,
@@ -563,10 +564,19 @@ function DetectionWorkbenchForm() {
                       href="/reports"
                       className="px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-xs font-bold border border-cyan-500/40 transition-all flex items-center gap-1.5"
                     >
-                      <FileText className="w-3.5 h-3.5" /> Ask App To Remove Post
+                      <FileText className="w-3.5 h-3.5" /> View Case File
                     </a>
                   </div>
                 </div>
+
+                {/* AI Autopilot Verification Breakdown & Threshold Action (>=75% Auto, <75% Manual) */}
+                <VerificationBreakdown
+                  score={leak.matchScore}
+                  platform={leak.platform}
+                  account={leak.account}
+                  title={leak.title || leak.type}
+                  isAutopilot={isAutopilot}
+                />
               </div>
             ))}
           </div>

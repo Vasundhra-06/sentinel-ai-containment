@@ -75,7 +75,7 @@ async def scan_live_media(
                         url=item["url"],
                         account_handle=item["account"],
                         similarity_score=item["similarity_score"],
-                        risk_level="HIGH" if item["similarity_score"] >= 85 else "MEDIUM",
+                        risk_level="HIGH" if item["similarity_score"] >= 75 else "MEDIUM",
                         status="Active",
                         sha256=image_meta["sha256"],
                         phash=image_meta["phash"],

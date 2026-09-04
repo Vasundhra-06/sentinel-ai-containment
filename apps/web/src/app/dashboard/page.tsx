@@ -56,8 +56,8 @@ export default function DashboardPage() {
       platform: 'YouTube',
       account: 'News Channel Clip HD',
       priority: 'MEDIUM',
-      priorityBadge: 'MEDIUM PRIORITY',
-      matchScore: 84,
+      priorityBadge: 'AMBIGUOUS MATCH',
+      matchScore: 68,
       status: 'Under Review',
       date: 'Yesterday, 09:15 UTC',
       summary: 'Short video using voice clone and modified thumbnail image.',
@@ -206,9 +206,18 @@ export default function DashboardPage() {
                   href="/reports"
                   className="px-3.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-xs font-bold border border-cyan-500/40 transition-all flex items-center gap-1.5"
                 >
-                  <Send className="w-3.5 h-3.5" /> Request Takedown
+                  <Send className="w-3.5 h-3.5" /> View Case Dossier
                 </Link>
               </div>
+
+              {/* AI Autopilot Verification Breakdown & Threshold Action (>=75% Auto, <75% Manual) */}
+              <VerificationBreakdown
+                score={news.matchScore}
+                platform={news.platform}
+                account={news.account}
+                title={news.title}
+                isAutopilot={isAutopilot}
+              />
             </div>
           ))}
         </div>

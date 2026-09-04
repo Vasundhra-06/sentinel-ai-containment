@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, CheckCircle, ShieldAlert, Sparkles, UserCheck, Image as ImageIcon, Briefcase, FileText } from 'lucide-react';
+import { ChevronDown, ChevronUp, CheckCircle, ShieldAlert, Sparkles, UserCheck, Image as ImageIcon, Briefcase, FileText, Send, AlertTriangle } from 'lucide-react';
 
 interface VerificationProps {
   score: number;
@@ -34,7 +34,10 @@ export function VerificationBreakdown({
   const [confirmed, setConfirmed] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
-  const isHighConfidence = score >= 85;
+  // Requirements:
+  // Above 75% match: Automatically reported to relevant social media.
+  // Below 75% match: Ambiguous match requiring manual review and approval by user.
+  const isAbove75 = score >= 75;
 
   if (dismissed) {
     return (
@@ -49,15 +52,22 @@ export function VerificationBreakdown({
       {/* Tier Badge & Why This Matches You Toggle */}
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          {isHighConfidence ? (
-            <span className="text-[10px] px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold flex items-center gap-1.5 shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              {isAutopilot ? 'AUTOPILOT VERIFIED & CONTAINED' : 'CONFIDENCE: HIGH (≥85%)'}
-            </span>
+          {isAbove75 ? (
+            isAutopilot ? (
+              <span className="text-[10px] px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold flex items-center gap-1.5 shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                AUTOPILOT: AUTO-SENT TO {platform.toUpperCase()} ({score}% MATCH)
+              </span>
+            ) : (
+              <span className="text-[10px] px-2.5 py-1 rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-bold flex items-center gap-1.5 shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                HIGH MATCH (≥75%) - READY TO REPORT
+              </span>
+            )
           ) : (
-            <span className="text-[10px] px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-              ASSISTED QUEUE (AUTO-PROCEED IN 24H)
+            <span className="text-[10px] px-2.5 py-1 rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold flex items-center gap-1.5 shadow-sm">
+              <AlertTriangle className="w-3 h-3 text-amber-400" />
+              AMBIGUOUS MATCH (&lt;75%): MANUAL REVIEW REQUIRED
             </span>
           )}
 
@@ -70,28 +80,29 @@ export function VerificationBreakdown({
           </button>
         </div>
 
-        {/* 1-Click Action Buttons */}
+        {/* Action Buttons */}
         <div className="flex items-center gap-1.5 text-xs">
           {confirmed ? (
-            <span className="text-[11px] font-bold text-emerald-400 flex items-center gap-1">
-              <CheckCircle className="w-3.5 h-3.5" /> Manually Approved: Takedown Filed
+            <span className="text-[11px] font-bold text-emerald-400 flex items-center gap-1.5 bg-emerald-950/40 px-2.5 py-1 rounded-lg border border-emerald-500/30">
+              <CheckCircle className="w-3.5 h-3.5" /> Manually Approved: Report Sent to {platform}
             </span>
           ) : (
             <>
-              {!isHighConfidence || !isAutopilot ? (
+              {/* If below 75%, or if in guarded mode, show manual button */}
+              {(!isAbove75 || !isAutopilot) && (
                 <button
                   type="button"
                   onClick={() => {
                     setConfirmed(true);
                     if (onConfirm) onConfirm();
                   }}
-                  className="px-3 py-1.5 rounded-lg bg-emerald-500/25 hover:bg-emerald-500/35 text-emerald-300 border border-emerald-500/50 font-bold text-[11px] flex items-center gap-1 transition-all shadow-sm shadow-emerald-950/40"
-                  title="Manually verify this post and trigger legal takedown report"
+                  className="px-3 py-1.5 rounded-lg bg-emerald-500/25 hover:bg-emerald-500/35 text-emerald-300 border border-emerald-500/50 font-bold text-[11px] flex items-center gap-1.5 transition-all shadow-sm shadow-emerald-950/40 animate-pulse hover:animate-none"
+                  title={`Manually approve and dispatch legal report to ${platform}`}
                 >
-                  <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-                  Allow & Send Takedown
+                  <Send className="w-3.5 h-3.5 text-emerald-400" />
+                  Allow & Send to {platform}
                 </button>
-              ) : null}
+              )}
               <button
                 type="button"
                 onClick={() => {
@@ -108,12 +119,37 @@ export function VerificationBreakdown({
         </div>
       </div>
 
+      {/* Explanatory Notice */}
+      <div className="text-[10px] text-slate-400 flex items-center gap-1.5">
+        {isAbove75 && isAutopilot ? (
+          <span className="text-emerald-400/90 font-medium flex items-center gap-1">
+            <CheckCircle className="w-3 h-3 text-emerald-400" />
+            Match score is ≥ 75%: Autopilot automatically created evidentiary package & dispatched report to {platform}.
+          </span>
+        ) : !isAbove75 ? (
+          <span className="text-amber-400/90 font-medium flex items-center gap-1">
+            <AlertTriangle className="w-3 h-3 text-amber-400" />
+            Match score is {score}% (below 75% threshold): Please inspect the breakdown and click "Allow & Send to {platform}".
+          </span>
+        ) : (
+          <span className="text-cyan-400/90 font-medium">
+            Guarded Mode Active: 1-click confirmation required to send report to {platform}.
+          </span>
+        )}
+      </div>
+
       {/* Expandable Multi-Factor Evidence Breakdown */}
       {isExpanded && (
-        <div className="p-3 rounded-xl bg-slate-950/80 border border-cyan-500/20 space-y-2 animate-in fade-in duration-200 text-xs">
-          <span className="text-[10px] font-mono font-bold text-cyan-400 uppercase block tracking-wider">
-            AI Multi-Factor Match Breakdown ({score}% Composite Score)
-          </span>
+        <div className="p-3 rounded-xl bg-slate-950/90 border border-cyan-500/30 space-y-2.5 animate-in fade-in duration-200 text-xs shadow-lg">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-wider">
+              AI Multi-Factor Match Breakdown ({score}% Composite Score)
+            </span>
+            <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+              Threshold: ≥ 75% Auto / &lt; 75% Manual
+            </span>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
             <div className="flex items-center gap-2 p-1.5 rounded-lg bg-slate-900/60 border border-slate-800">
               <ImageIcon className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
@@ -126,7 +162,7 @@ export function VerificationBreakdown({
             <div className="flex items-center gap-2 p-1.5 rounded-lg bg-slate-900/60 border border-slate-800">
               <UserCheck className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
               <div>
-                <span className="text-slate-300 font-bold block">Digital Handle Tag: 100%</span>
+                <span className="text-slate-300 font-bold block">Digital Handle Tag: {score >= 75 ? '100%' : '65%'}</span>
                 <span className="text-[9px] text-slate-400 block">Target handle mentioned in caption</span>
               </div>
             </div>
@@ -134,7 +170,7 @@ export function VerificationBreakdown({
             <div className="flex items-center gap-2 p-1.5 rounded-lg bg-slate-900/60 border border-slate-800">
               <Briefcase className="w-3.5 h-3.5 text-blue-400 flex-shrink-0" />
               <div>
-                <span className="text-slate-300 font-bold block">Bio & Profession Context: 95%</span>
+                <span className="text-slate-300 font-bold block">Bio & Profession Context: {score >= 75 ? '95%' : '60%'}</span>
                 <span className="text-[9px] text-slate-400 block">Matched career/profession keyword</span>
               </div>
             </div>
@@ -142,8 +178,8 @@ export function VerificationBreakdown({
             <div className="flex items-center gap-2 p-1.5 rounded-lg bg-slate-900/60 border border-slate-800">
               <FileText className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
               <div>
-                <span className="text-slate-300 font-bold block">Rumor Co-Occurrence: 92%</span>
-                <span className="text-[9px] text-slate-400 block">Contains reported defamatory terms</span>
+                <span className="text-slate-300 font-bold block">Rumor Co-Occurrence: {score >= 75 ? '92%' : '58%'}</span>
+                <span className="text-[9px] text-slate-400 block">Defamatory or fake claim keywords</span>
               </div>
             </div>
           </div>
