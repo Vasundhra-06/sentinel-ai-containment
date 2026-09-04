@@ -153,7 +153,7 @@ export function SentinelUserProvider({ children }: { children: React.ReactNode }
     }
 
     // Background fetch from SQLite backend
-    fetch('http://127.0.0.1:8000/api/v1/profiles/current')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'}/profiles/current`)
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data && data.full_name) {
@@ -194,7 +194,7 @@ export function SentinelUserProvider({ children }: { children: React.ReactNode }
 
     // Synchronize to SQLite backend
     try {
-      await fetch('http://127.0.0.1:8000/api/v1/profiles/current', {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'}/profiles/current`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -295,8 +295,8 @@ export function ReportDossierModal({ isOpen, onClose, defaultNotice = 'first' }:
 
             <a
               href={noticeType === 'second' 
-                ? 'http://localhost:8000/api/v1/reports/HC-2041/second-notice/pdf'
-                : 'http://localhost:8000/api/v1/reports/HC-2041/pdf'
+                ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'}/reports/HC-2041/second-notice/pdf`
+                : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'}/reports/HC-2041/pdf`
               }
               target="_blank"
               rel="noreferrer"
