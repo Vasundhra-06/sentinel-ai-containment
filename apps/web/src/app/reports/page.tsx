@@ -23,11 +23,6 @@ import { ReportDossierModal } from '@/components/ReportDossierModal';
 export default function ReportsPage() {
   const [isDossierOpen, setIsDossierOpen] = useState(false);
   const [activeModalNotice, setActiveModalNotice] = useState<'first' | 'second'>('first');
-  const [sentReports, setSentReports] = useState<Record<string, boolean>>({});
-
-  const handleSendSecondNotice = (id: string) => {
-    setSentReports((prev) => ({ ...prev, [id]: true }));
-  };
 
   const openDossier = (type: 'first' | 'second') => {
     setActiveModalNotice(type);
@@ -40,9 +35,9 @@ export default function ReportsPage() {
       isEscalated: true,
       app: 'Instagram (Meta Trust & Safety)',
       ownerTeam: 'Meta Legal & General Counsel',
-      status: '2nd Notice Ready (1st Report Ignored > 48h)',
-      statusColor: 'bg-rose-500/20 text-rose-300 border-rose-500/50',
-      dateSent: 'Today, Overdue 52 Hours',
+      status: 'AUTOPILOT: 2ND NOTICE AUTO-DISPATCHED',
+      statusColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-bold flex items-center gap-1.5',
+      dateSent: 'Auto-Dispatched by Autopilot (Zero-Touch) • Ticket #ESC-META-90412',
       victimName: 'Dr. Evelyn Carter',
       victimProfession: 'Research Scientist & Content Creator',
       offenderAccount: '@viral_leak_x (Repeat Offender: 4 Recurrent Posts)',
@@ -147,16 +142,26 @@ export default function ReportsPage() {
           >
             {/* Escalated Alert Badge for 2nd Notice */}
             {rpt.isEscalated && (
-              <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-500/50 flex flex-wrap items-center justify-between gap-2">
-                <div className="flex items-center gap-2">
-                  <Flame className="w-4 h-4 text-rose-400 animate-pulse" />
-                  <span className="text-xs font-bold text-rose-200">
-                    2ND-TIMED STATUTORY ESCALATION: 1st Report Ignored by Platform & Re-Uploaded by Same Account
-                  </span>
+              <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/50 space-y-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <Flame className="w-4 h-4 text-rose-400 animate-pulse" />
+                    <span className="text-xs font-black text-rose-200 uppercase tracking-wide">
+                      2ND-TIMED STATUTORY ESCALATION • AUTOPILOT AUTO-SENT
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[9px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30 flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-400" /> ZERO-TOUCH AUTO DISPATCHED
+                    </span>
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono font-bold border border-rose-500/40">
+                      DMCA 17 U.S.C. § 512(i)
+                    </span>
+                  </div>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono font-bold border border-rose-500/40">
-                  DMCA 17 U.S.C. § 512(i)
-                </span>
+                <p className="text-[11px] text-rose-200/90 leading-relaxed font-sans">
+                  Autopilot detected that the 1st notice was ignored (&gt;48h) and the same account (<strong className="text-white">@viral_leak_x</strong>) re-uploaded unauthorized content. Sentinel automatically compiled and transmitted this 2nd Escalated Statutory Notice to Meta Legal Counsel without waiting for manual intervention.
+                </p>
               </div>
             )}
 
@@ -234,21 +239,13 @@ export default function ReportsPage() {
             <div className="flex flex-wrap items-center justify-between gap-3 pt-1 text-xs">
               <span className="text-slate-400 text-[11px] font-mono">Date / Audit: {rpt.dateSent}</span>
 
-              <div className="flex items-center gap-2">
-                {rpt.isEscalated && (
-                  sentReports[rpt.id] ? (
-                    <span className="px-3.5 py-2 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400" /> 2nd Notice Dispatched to Meta Legal!
-                    </span>
-                  ) : (
-                    <button
-                      onClick={() => handleSendSecondNotice(rpt.id)}
-                      className="px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-md shadow-rose-950/50 transition-all flex items-center gap-1.5"
-                    >
-                      <Send className="w-3.5 h-3.5" /> Send 2nd Notice to Platform Owner
-                    </button>
-                  )
-                )}
+              <div className="flex flex-wrap items-center gap-2">
+                {rpt.isEscalated ? (
+                  <span className="px-3.5 py-2 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center gap-2 shadow-sm">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 animate-pulse" />
+                    <span>✓ 2nd Notice Auto-Dispatched to Platform Owner</span>
+                  </span>
+                ) : null}
 
                 <button
                   onClick={() => openDossier(rpt.isEscalated ? 'second' : 'first')}

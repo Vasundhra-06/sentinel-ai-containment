@@ -29,13 +29,7 @@ interface ModalProps {
 
 export function ReportDossierModal({ isOpen, onClose, defaultNotice = 'first' }: ModalProps) {
   const [noticeType, setNoticeType] = useState<'first' | 'second'>(defaultNotice);
-  const [dispatchedSecond, setDispatchedSecond] = useState(false);
-
   if (!isOpen) return null;
-
-  const handleSendSecondNotice = () => {
-    setDispatchedSecond(true);
-  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 font-sans animate-in fade-in duration-150">
@@ -182,15 +176,28 @@ export function ReportDossierModal({ isOpen, onClose, defaultNotice = 'first' }:
         {noticeType === 'second' && (
           <div className="bg-[#070c18] p-6 rounded-2xl border border-rose-500/30 text-xs font-mono text-slate-200 space-y-5 leading-relaxed shadow-inner animate-in fade-in duration-200">
             {/* Escalation Banner */}
-            <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/50 flex items-start gap-3">
-              <ShieldAlert className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5 animate-pulse" />
-              <div>
-                <span className="text-xs font-bold text-rose-200 block uppercase tracking-wider">
-                  STATUTORY NON-COMPLIANCE & REPEAT INFRINGER ESCALATION
+            <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/50 space-y-2.5">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-3">
+                  <ShieldAlert className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5 animate-pulse" />
+                  <div>
+                    <span className="text-xs font-black text-rose-200 block uppercase tracking-wider">
+                      STATUTORY NON-COMPLIANCE & REPEAT INFRINGER ESCALATION
+                    </span>
+                    <p className="text-[11px] text-rose-300/90 mt-0.5 font-sans">
+                      The host platform owner ignored the initial takedown notice (#REP-2041-01), allowing the same offender ID (<strong className="text-white">@viral_leak_x</strong>) to re-upload recurrent derivatives. Safe harbor immunity is formally contested.
+                    </p>
+                  </div>
+                </div>
+                <span className="text-[10px] px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40 flex items-center gap-1.5 flex-shrink-0">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  AUTO-DISPATCHED
                 </span>
-                <p className="text-[11px] text-rose-300/90 mt-0.5 font-sans">
-                  The host platform owner ignored the initial takedown notice (#REP-2041-01), allowing the same offender ID (<strong className="text-white">@viral_leak_x</strong>) to re-upload recurrent derivatives. Safe harbor immunity is formally contested.
-                </p>
+              </div>
+              <div className="text-[10px] bg-slate-950/70 p-2 rounded border border-rose-500/30 text-slate-300 font-mono flex flex-wrap items-center justify-between gap-2">
+                <span>Dispatch Mode: <strong className="text-emerald-400">Sentinel Autopilot (Zero-Touch)</strong></span>
+                <span>Gateway: <strong className="text-cyan-400">Meta Legal Compliance API</strong></span>
+                <span>Audit Ref: <strong className="text-amber-400">#ESC-META-90412</strong></span>
               </div>
             </div>
 
@@ -280,19 +287,10 @@ export function ReportDossierModal({ isOpen, onClose, defaultNotice = 'first' }:
 
           <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
             {noticeType === 'second' && (
-              dispatchedSecond ? (
-                <span className="px-4 py-2 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" /> 2nd Notice Sent to Meta Legal!
-                </span>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleSendSecondNotice}
-                  className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-md shadow-rose-950/50 transition-all flex items-center gap-1.5"
-                >
-                  <Send className="w-3.5 h-3.5" /> Send 2nd Notice to Platform Owner
-                </button>
-              )
+              <span className="px-4 py-2 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold flex items-center gap-2 shadow-sm">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 animate-pulse" />
+                <span>✓ Autopilot: 2nd Notice Auto-Dispatched to Meta Legal Counsel</span>
+              </span>
             )}
 
             <a
