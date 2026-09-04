@@ -47,6 +47,7 @@ export default function AutopilotPage() {
       date: 'Today, 14:22 UTC',
       status: 'Auto-Report Dispatched',
       summary: 'Manipulated video reel with synthesized voice clone impersonating the target.',
+      url: 'https://www.instagram.com/reel/C9x81kLmPq/',
       sha256: '4f1fbc178456b8433a764893fb10a4d9ab4f91dc88231a47e091238917412894',
     },
     {
@@ -58,6 +59,7 @@ export default function AutopilotPage() {
       date: 'Today, 11:05 UTC',
       status: 'Auto-Report Dispatched',
       summary: 'Stolen high-res portrait reposted with fraudulent accusations and impersonation tags.',
+      url: 'https://x.com/breaking_buzz_99/status/179218291044',
       sha256: '8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b',
     },
     {
@@ -69,6 +71,7 @@ export default function AutopilotPage() {
       date: 'Yesterday, 18:40 UTC',
       status: 'Auto-Report Dispatched',
       summary: 'Image flyer featuring target photo paired with misleading financial claims.',
+      url: 'https://www.facebook.com/groups/medicalnews/posts/991823104',
       sha256: '1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b',
     },
     {
@@ -80,6 +83,7 @@ export default function AutopilotPage() {
       date: 'Yesterday, 09:15 UTC',
       status: 'Awaiting User Authorization',
       summary: 'Partial facial similarity in video clip. Match score (68%) is below 75% threshold.',
+      url: 'https://www.youtube.com/shorts/v_882910',
       sha256: '9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d8c7b6a5f4e3d2c1b0a9f8e',
     },
     {
@@ -91,6 +95,7 @@ export default function AutopilotPage() {
       date: 'Aug 29, 2026',
       status: 'Awaiting User Authorization',
       summary: 'Blurry crop from image thread. Ambiguous match (71%) requires human-in-the-loop review.',
+      url: 'https://www.reddit.com/r/technology/comments/1f8e91/rumor_investigation',
       sha256: '3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d',
     },
     {
@@ -102,6 +107,7 @@ export default function AutopilotPage() {
       date: 'Aug 28, 2026',
       status: 'Takedown Confirmed',
       summary: 'Defamatory post removed after automated legal notice sent to moderators.',
+      url: 'https://www.reddit.com/r/memes/comments/1f8f92/viral_meme_post',
       sha256: '7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d',
     },
   ];
@@ -309,16 +315,27 @@ export default function AutopilotPage() {
                 <span className="text-[11px] text-slate-500">{item.date}</span>
               </div>
 
-              <div className="flex items-center justify-between pt-1">
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
                 <span className="text-xs font-semibold text-slate-400">
                   Status: <strong className="text-slate-200">{item.status}</strong>
                 </span>
-                <Link
-                  href="/reports"
-                  className="px-3 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1"
-                >
-                  <FileText className="w-3.5 h-3.5 text-cyan-400" /> Evidence Dossier
-                </Link>
+                <div className="flex items-center gap-2">
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-xs font-bold border border-cyan-500/40 transition-all flex items-center gap-1.5 shadow-sm hover:shadow-cyan-950/40"
+                    title={`Inspect real post directly on ${item.platform}`}
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 text-cyan-400" /> Inspect Post
+                  </a>
+                  <Link
+                    href="/reports"
+                    className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5"
+                  >
+                    <FileText className="w-3.5 h-3.5 text-slate-400" /> Evidence Dossier
+                  </Link>
+                </div>
               </div>
 
               {/* Autopilot Verification & 75% Threshold Engine */}

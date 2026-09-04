@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
-  ShieldAlert, AlertTriangle, Search, FileText, CheckCircle2, ArrowRight, Eye, Shield, Send, RefreshCw, Network, Sparkles, Filter, Activity, BarChart2, TrendingUp, Lock
+  ShieldAlert,
+  ExternalLink, AlertTriangle, Search, FileText, CheckCircle2, ArrowRight, Eye, Shield, Send, RefreshCw, Network, Sparkles, Filter, Activity, BarChart2, TrendingUp, Lock
 } from 'lucide-react';
 import { PropagationGraph } from '@/components/PropagationGraph';
 
@@ -13,6 +14,7 @@ export default function DashboardPage() {
   const newsLeaks = [
     {
       id: 'LEAK-INSTA-01',
+      url: 'https://www.instagram.com/p/C9x81kLmPq/',
       title: 'Edited Photo & False Personal Claim',
       platform: 'Instagram',
       account: '@viral_leak_x',
@@ -25,6 +27,7 @@ export default function DashboardPage() {
     },
     {
       id: 'LEAK-X-02',
+      url: 'https://x.com/tweet_user_99/status/1792182910',
       title: 'Stolen Photo & Impersonation Tweet',
       platform: 'X (Twitter)',
       account: '@tweet_user_99',
@@ -37,6 +40,7 @@ export default function DashboardPage() {
     },
     {
       id: 'LEAK-FB-03',
+      url: 'https://www.facebook.com/groups/medicalnews/posts/9918231',
       title: 'Fake Rumor Video in Public Group',
       platform: 'Facebook',
       account: 'FB Group: Viral News India',
@@ -49,6 +53,7 @@ export default function DashboardPage() {
     },
     {
       id: 'LEAK-YT-04',
+      url: 'https://www.youtube.com/shorts/v_882910',
       title: 'Fake Audio Clip & Modified Thumbnail',
       platform: 'YouTube',
       account: 'News Channel Clip HD',
@@ -61,6 +66,7 @@ export default function DashboardPage() {
     },
     {
       id: 'LEAK-REDDIT-05',
+      url: 'https://www.reddit.com/r/technology/comments/1f8e91/rumor_investigation',
       title: 'Fake Meme Post on Forum',
       platform: 'Reddit',
       account: 'u/meme_lord_academic',
@@ -195,14 +201,25 @@ export default function DashboardPage() {
                 <span className="text-[11px] text-slate-500">{news.date}</span>
               </div>
 
-              <div className="flex items-center justify-between pt-1">
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
                 <span className="text-xs font-semibold text-slate-400">Status: <strong className="text-slate-200">{news.status}</strong></span>
-                <Link
-                  href="/reports"
-                  className="px-3.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-xs font-bold border border-cyan-500/40 transition-all flex items-center gap-1.5"
-                >
-                  <Send className="w-3.5 h-3.5" /> View Case Dossier
-                </Link>
+                <div className="flex items-center gap-2">
+                  <a
+                    href={(news as any).url || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-xs font-bold border border-cyan-500/40 transition-all flex items-center gap-1.5 shadow-sm"
+                    title={`Inspect real post directly on ${news.platform}`}
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 text-cyan-400" /> Inspect Post
+                  </a>
+                  <Link
+                    href="/reports"
+                    className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5"
+                  >
+                    <Send className="w-3.5 h-3.5 text-slate-400" /> Dossier
+                  </Link>
+                </div>
               </div>
 
 
