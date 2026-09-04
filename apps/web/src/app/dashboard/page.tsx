@@ -2,8 +2,6 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { AutopilotToggle } from '@/components/AutopilotToggle';
-import { VerificationBreakdown } from '@/components/VerificationBreakdown';
 import { 
   ShieldAlert, AlertTriangle, Search, FileText, CheckCircle2, ArrowRight, Eye, Shield, Send, RefreshCw, Network, Sparkles, Filter, Activity, BarChart2, TrendingUp, Lock
 } from 'lucide-react';
@@ -11,7 +9,6 @@ import { PropagationGraph } from '@/components/PropagationGraph';
 
 export default function DashboardPage() {
   const [priorityFilter, setPriorityFilter] = useState<'ALL' | 'HIGH' | 'MEDIUM' | 'RESOLVED'>('ALL');
-  const [isAutopilot, setIsAutopilot] = useState(true);
 
   const newsLeaks = [
     {
@@ -56,7 +53,7 @@ export default function DashboardPage() {
       platform: 'YouTube',
       account: 'News Channel Clip HD',
       priority: 'MEDIUM',
-      priorityBadge: 'AMBIGUOUS MATCH',
+      priorityBadge: 'MEDIUM PRIORITY',
       matchScore: 68,
       status: 'Under Review',
       date: 'Yesterday, 09:15 UTC',
@@ -103,8 +100,6 @@ export default function DashboardPage() {
 
       </div>
 
-      {/* AI Autopilot Mode Controller */}
-      <AutopilotToggle onModeChange={(enabled) => setIsAutopilot(enabled)} />
 
       {/* Main Stats Metrics */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -210,14 +205,7 @@ export default function DashboardPage() {
                 </Link>
               </div>
 
-              {/* AI Autopilot Verification Breakdown & Threshold Action (>=75% Auto, <75% Manual) */}
-              <VerificationBreakdown
-                score={news.matchScore}
-                platform={news.platform}
-                account={news.account}
-                title={news.title}
-                isAutopilot={isAutopilot}
-              />
+
             </div>
           ))}
         </div>
