@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
-from routers import incidents, detections, evidence, reports
+from routers import incidents, detections, evidence, reports, profiles
 
 # Initialize SQLite Database Tables
 Base.metadata.create_all(bind=engine)
@@ -25,6 +25,7 @@ app.include_router(incidents.router)
 app.include_router(detections.router)
 app.include_router(evidence.router)
 app.include_router(reports.router)
+app.include_router(profiles.router)
 
 @app.get("/")
 def root():

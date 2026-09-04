@@ -19,8 +19,10 @@ import {
   Scale
 } from 'lucide-react';
 import { ReportDossierModal } from '@/components/ReportDossierModal';
+import { useSentinelUser } from '@/context/SentinelUserContext';
 
 export default function ReportsPage() {
+  const { currentUser } = useSentinelUser();
   const [isDossierOpen, setIsDossierOpen] = useState(false);
   const [activeModalNotice, setActiveModalNotice] = useState<'first' | 'second'>('first');
 
@@ -38,8 +40,8 @@ export default function ReportsPage() {
       status: 'AUTOPILOT: 2ND NOTICE AUTO-DISPATCHED',
       statusColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-bold flex items-center gap-1.5',
       dateSent: 'Auto-Dispatched by Autopilot (Zero-Touch) • Ticket #ESC-META-90412',
-      victimName: 'Dr. Evelyn Carter',
-      victimProfession: 'Research Scientist & Content Creator',
+      victimName: currentUser.name,
+      victimProfession: currentUser.profession,
       offenderAccount: '@viral_leak_x (Repeat Offender: 4 Recurrent Posts)',
       targetUrl: 'https://instagram.com/reel/C9x81kLmPq/',
       category: 'Statutory Non-Compliance & Persistent Re-Upload',
@@ -58,8 +60,8 @@ export default function ReportsPage() {
       status: 'Removed',
       statusColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
       dateSent: 'Aug 28, 2026',
-      victimName: 'Dr. Evelyn Carter',
-      victimProfession: 'Research Scientist & Content Creator',
+      victimName: currentUser.name,
+      victimProfession: currentUser.profession,
       offenderAccount: '@viral_leak_x',
       targetUrl: 'https://instagram.com/p/sample_leak_01',
       category: 'Impersonation & Defamation',
@@ -78,8 +80,8 @@ export default function ReportsPage() {
       status: 'Restricted',
       statusColor: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
       dateSent: 'Aug 29, 2026',
-      victimName: 'Dr. Evelyn Carter',
-      victimProfession: 'Research Scientist & Content Creator',
+      victimName: currentUser.name,
+      victimProfession: currentUser.profession,
       offenderAccount: '@tweet_user_99',
       targetUrl: 'https://x.com/user/status/1948201',
       category: 'Stolen Photo & Rumor Tweet',
@@ -98,8 +100,8 @@ export default function ReportsPage() {
       status: 'Rejected',
       statusColor: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
       dateSent: 'Aug 29, 2026',
-      victimName: 'Dr. Evelyn Carter',
-      victimProfession: 'Research Scientist & Content Creator',
+      victimName: currentUser.name,
+      victimProfession: currentUser.profession,
       offenderAccount: 'u/meme_lord_academic',
       targetUrl: 'https://reddit.com/r/sample5',
       category: 'Harassment / Doxxing Post',
@@ -124,7 +126,7 @@ export default function ReportsPage() {
             Takedown & Escalated 2nd-Timed Reports
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Standard 1st reports and Escalated 2nd-Timed statutory non-compliance notices for ignored reports and repeat re-uploads.
+            Standard 1st reports and Escalated 2nd-Timed statutory non-compliance notices for protected profile <strong className="text-cyan-300">{currentUser.name}</strong>.
           </p>
         </div>
       </div>

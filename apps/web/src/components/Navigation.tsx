@@ -2,6 +2,7 @@
 import { SentinelLogo } from './SentinelLogo';
 
 import React, { useState } from 'react';
+import { useSentinelUser } from '@/context/SentinelUserContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
@@ -36,6 +37,7 @@ import {
 
 export function Navigation({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { currentUser } = useSentinelUser();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -148,7 +150,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-2.5 overflow-hidden">
             <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
             <div className="truncate">
-              <span className="text-xs font-extrabold text-slate-100 group-hover:text-cyan-300 block truncate transition-colors">Protected Profile</span>
+              <span className="text-xs font-extrabold text-slate-100 group-hover:text-cyan-300 block truncate transition-colors">{currentUser.name}</span>
               <span className="text-[10px] text-cyan-400 font-mono font-bold">ACTIVE PROTECTION</span>
             </div>
           </div>
@@ -337,7 +339,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
                 className="w-9 h-9 rounded-xl bg-gradient-to-tr from-violet-600 via-cyan-500 to-emerald-400 hover:scale-105 flex items-center justify-center font-black text-xs text-white shadow-lg shadow-cyan-500/20 border border-white/20 transition-all cursor-pointer"
                 title="Click to view Protected Profile Details"
               >
-                EC
+                {currentUser.avatarInitials}
               </button>
             </div>
           </div>
@@ -365,17 +367,17 @@ export function Navigation({ children }: { children: React.ReactNode }) {
             {/* Profile Header */}
             <div className="flex items-center gap-4 border-b border-slate-800 pb-4">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-violet-600 via-cyan-500 to-emerald-400 flex items-center justify-center font-black text-lg text-white shadow-xl shadow-cyan-500/30 border border-white/20 flex-shrink-0">
-                EC
+                {currentUser.avatarInitials}
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-black text-white">Dr. Evelyn Carter</h3>
+                  <h3 className="text-lg font-black text-white">{currentUser.name}</h3>
                   <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold flex items-center gap-1">
                     <ShieldCheck className="w-3 h-3" /> VERIFIED
                   </span>
                 </div>
-                <p className="text-xs text-cyan-400 font-semibold mt-0.5">Research Scientist & Content Creator</p>
-                <p className="text-[10px] text-slate-400 font-mono mt-0.5">Profile ID: PROF-8821-EC</p>
+                <p className="text-xs text-cyan-400 font-semibold mt-0.5">{currentUser.profession}</p>
+                <p className="text-[10px] text-slate-400 font-mono mt-0.5">Profile ID: {currentUser.id}-{currentUser.avatarInitials}</p>
               </div>
             </div>
 

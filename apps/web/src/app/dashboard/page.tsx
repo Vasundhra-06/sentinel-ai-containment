@@ -7,77 +7,26 @@ import {
   ExternalLink, AlertTriangle, Search, FileText, CheckCircle2, ArrowRight, Eye, Shield, Send, RefreshCw, Network, Sparkles, Filter, Activity, BarChart2, TrendingUp, Lock
 } from 'lucide-react';
 import { PropagationGraph } from '@/components/PropagationGraph';
+import { useSentinelUser } from '@/context/SentinelUserContext';
 
 export default function DashboardPage() {
   const [priorityFilter, setPriorityFilter] = useState<'ALL' | 'HIGH' | 'MEDIUM' | 'RESOLVED'>('ALL');
 
-  const newsLeaks = [
-    {
-      id: 'LEAK-INSTA-01',
-      url: 'https://www.instagram.com/p/C9x81kLmPq/',
-      title: 'Edited Photo & False Personal Claim',
-      platform: 'Instagram',
-      account: '@viral_leak_x',
-      priority: 'HIGH',
-      priorityBadge: 'HIGH PRIORITY',
-      matchScore: 96,
-      status: 'Active Leak',
-      date: 'Today, 14:22 UTC',
-      summary: 'Manipulated screenshot of Dr. Evelyn Carter posted with fake quotes in viral caption.',
-    },
-    {
-      id: 'LEAK-X-02',
-      url: 'https://x.com/tweet_user_99/status/1792182910',
-      title: 'Stolen Photo & Impersonation Tweet',
-      platform: 'X (Twitter)',
-      account: '@tweet_user_99',
-      priority: 'HIGH',
-      priorityBadge: 'HIGH PRIORITY',
-      matchScore: 92,
-      status: 'Waiting Takedown',
-      date: 'Today, 11:05 UTC',
-      summary: 'Fake Twitter profile created using stolen photos to spread rumors.',
-    },
-    {
-      id: 'LEAK-FB-03',
-      url: 'https://www.facebook.com/groups/medicalnews/posts/9918231',
-      title: 'Fake Rumor Video in Public Group',
-      platform: 'Facebook',
-      account: 'FB Group: Viral News India',
-      priority: 'MEDIUM',
-      priorityBadge: 'MEDIUM PRIORITY',
-      matchScore: 88,
-      status: 'Active Leak',
-      date: 'Yesterday, 18:40 UTC',
-      summary: 'Re-uploaded edited clip shared in Facebook group with misleading title.',
-    },
-    {
-      id: 'LEAK-YT-04',
-      url: 'https://www.youtube.com/shorts/v_882910',
-      title: 'Fake Audio Clip & Modified Thumbnail',
-      platform: 'YouTube',
-      account: 'News Channel Clip HD',
-      priority: 'MEDIUM',
-      priorityBadge: 'MEDIUM PRIORITY',
-      matchScore: 68,
-      status: 'Under Review',
-      date: 'Yesterday, 09:15 UTC',
-      summary: 'Short video using voice clone and modified thumbnail image.',
-    },
-    {
-      id: 'LEAK-REDDIT-05',
-      url: 'https://www.reddit.com/r/technology/comments/1f8e91/rumor_investigation',
-      title: 'Fake Meme Post on Forum',
-      platform: 'Reddit',
-      account: 'u/meme_lord_academic',
-      priority: 'RESOLVED',
-      priorityBadge: 'RESOLVED',
-      matchScore: 78,
-      status: 'Removed',
-      date: 'Aug 28, 2026',
-      summary: 'Post removed after SENTINEL filed verified proof report with moderators.',
-    },
-  ];
+  const { currentUser, incidents } = useSentinelUser();
+
+  const newsLeaks = incidents.map((item) => ({
+    id: item.id,
+    url: item.url,
+    title: item.title,
+    platform: item.platform,
+    account: item.account,
+    priority: (item.priority || (item.matchScore >= 75 ? 'HIGH' : 'MEDIUM')) as 'HIGH' | 'MEDIUM' | 'RESOLVED',
+    priorityBadge: item.priorityBadge || (item.matchScore >= 75 ? 'HIGH PRIORITY' : 'AMBIGUOUS REVIEW'),
+    matchScore: item.matchScore,
+    status: item.status,
+    date: item.date,
+    summary: `${item.type} targeting ${currentUser.name} on ${item.platform} (${item.account}).`,
+  }));
 
   const filteredNews = newsLeaks.filter((item) => {
     if (priorityFilter === 'HIGH') return item.priority === 'HIGH';

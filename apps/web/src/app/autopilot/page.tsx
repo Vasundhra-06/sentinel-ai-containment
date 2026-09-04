@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { AutopilotToggle } from '@/components/AutopilotToggle';
 import { VerificationBreakdown } from '@/components/VerificationBreakdown';
+import { useSentinelUser } from '@/context/SentinelUserContext';
 
 export default function AutopilotPage() {
   const [isAutopilot, setIsAutopilot] = useState(true);
@@ -36,81 +37,20 @@ export default function AutopilotPage() {
     }
   }, []);
 
-  // Incidents data showcasing the 75% Autopilot threshold
-  const incidents = [
-    {
-      id: 'AUTO-INSTA-01',
-      title: 'Deepfake Video Reel with Fake Audio',
-      platform: 'Instagram',
-      account: '@viral_clips_daily',
-      matchScore: 96,
-      date: 'Today, 14:22 UTC',
-      status: 'Auto-Report Dispatched',
-      summary: 'Manipulated video reel with synthesized voice clone impersonating the target.',
-      url: 'https://www.instagram.com/reel/C9x81kLmPq/',
-      sha256: '4f1fbc178456b8433a764893fb10a4d9ab4f91dc88231a47e091238917412894',
-    },
-    {
-      id: 'AUTO-X-02',
-      title: 'Stolen Photo & Defamatory Caption',
-      platform: 'X (Twitter)',
-      account: '@breaking_buzz_99',
-      matchScore: 92,
-      date: 'Today, 11:05 UTC',
-      status: 'Auto-Report Dispatched',
-      summary: 'Stolen high-res portrait reposted with fraudulent accusations and impersonation tags.',
-      url: 'https://x.com/breaking_buzz_99/status/179218291044',
-      sha256: '8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b',
-    },
-    {
-      id: 'AUTO-FB-03',
-      title: 'Fabricated Quote Graphic in Public Group',
-      platform: 'Facebook',
-      account: 'Group: Medical & Science News',
-      matchScore: 88,
-      date: 'Yesterday, 18:40 UTC',
-      status: 'Auto-Report Dispatched',
-      summary: 'Image flyer featuring target photo paired with misleading financial claims.',
-      url: 'https://www.facebook.com/groups/medicalnews/posts/991823104',
-      sha256: '1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b',
-    },
-    {
-      id: 'MANUAL-YT-04',
-      title: 'Lookalike Video Derivative with Misleading Title',
-      platform: 'YouTube',
-      account: 'BuzzShorts HD',
-      matchScore: 68,
-      date: 'Yesterday, 09:15 UTC',
-      status: 'Awaiting User Authorization',
-      summary: 'Partial facial similarity in video clip. Match score (68%) is below 75% threshold.',
-      url: 'https://www.youtube.com/shorts/v_882910',
-      sha256: '9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d8c7b6a5f4e3d2c1b0a9f8e',
-    },
-    {
-      id: 'MANUAL-REDDIT-05',
-      title: 'Low-Res Forum Screenshot with Ambiguous Context',
-      platform: 'Reddit',
-      account: 'u/forum_investigator',
-      matchScore: 71,
-      date: 'Aug 29, 2026',
-      status: 'Awaiting User Authorization',
-      summary: 'Blurry crop from image thread. Ambiguous match (71%) requires human-in-the-loop review.',
-      url: 'https://www.reddit.com/r/technology/comments/1f8e91/rumor_investigation',
-      sha256: '3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d',
-    },
-    {
-      id: 'AUTO-REDDIT-06',
-      title: 'Viral Defamatory Meme Post',
-      platform: 'Reddit',
-      account: 'u/meme_overlord',
-      matchScore: 78,
-      date: 'Aug 28, 2026',
-      status: 'Takedown Confirmed',
-      summary: 'Defamatory post removed after automated legal notice sent to moderators.',
-      url: 'https://www.reddit.com/r/memes/comments/1f8f92/viral_meme_post',
-      sha256: '7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d',
-    },
-  ];
+  const { currentUser, incidents: contextIncidents, confirmContainment, dismissIncident, undoDismissal } = useSentinelUser();
+
+  const incidents = contextIncidents.map((item) => ({
+    id: item.id,
+    title: item.title,
+    platform: item.platform,
+    account: item.account,
+    matchScore: item.matchScore,
+    date: item.date,
+    status: item.matchScore >= 75 ? 'Auto-Report Dispatched' : (item.status || 'Pending Review'),
+    summary: `${item.type} targeting ${currentUser.name} on ${item.platform} (${item.account}).`,
+    url: item.url,
+    sha256: item.sha256,
+  }));
 
   const filteredIncidents = incidents.filter((item) => {
     if (filter === 'AUTO') return item.matchScore >= 75;
@@ -345,6 +285,9 @@ export default function AutopilotPage() {
                 account={item.account}
                 title={item.title}
                 isAutopilot={isAutopilot}
+                onConfirm={() => confirmContainment(item.id)}
+                onDismiss={() => dismissIncident(item.id)}
+                onUndoDismiss={() => undoDismissal(item.id)}
               />
             </div>
           ))}
