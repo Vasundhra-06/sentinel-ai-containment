@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
   Menu,
+  Zap,
   Shield, 
   LayoutDashboard, 
   AlertTriangle, 
@@ -100,6 +101,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
     { name: 'Home Dashboard', path: '/dashboard', icon: LayoutDashboard },
     { name: 'Main Cases', path: '/incidents', icon: AlertTriangle },
     { name: 'Takedown Requests', path: '/reports', icon: Send },
+    { name: 'AI Autopilot Containment', path: '/autopilot', icon: Zap, badge: 'ACTIVE' },
   ];
 
   return (
