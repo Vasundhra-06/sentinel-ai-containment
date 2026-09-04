@@ -3,7 +3,10 @@ import urllib.parse
 import re
 from datetime import datetime
 from typing import List, Dict, Any, Optional
-from bs4 import BeautifulSoup
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    BeautifulSoup = None
 from services.fingerprint_service import FingerprintService
 
 class LiveScannerService:
