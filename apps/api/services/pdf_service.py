@@ -99,3 +99,133 @@ class PDFReportGenerator:
         pdf_data = buffer.getvalue()
         buffer.close()
         return pdf_data
+
+    @staticmethod
+    def generate_second_notice_pdf(
+        incident_id: str = "HC-2041",
+        original_report_id: str = "REP-2041-01",
+        protected_profile: str = "Dr. Evelyn Carter",
+        offender_account: str = "@viral_leak_x",
+        reupload_url: str = "https://instagram.com/reel/C9x81kLmPq/",
+        platform: str = "Instagram"
+    ) -> bytes:
+        """Generates a standardized 6-section Escalated 2nd-Timed Report for ignored content and re-uploads."""
+        buffer = io.BytesIO()
+        doc = SimpleDocTemplate(
+            buffer,
+            pagesize=letter,
+            rightMargin=36,
+            leftMargin=36,
+            topMargin=36,
+            bottomMargin=36
+        )
+
+        styles = getSampleStyleSheet()
+
+        title_style = ParagraphStyle(
+            'DocTitleSecond',
+            parent=styles['Heading1'],
+            fontName='Helvetica-Bold',
+            fontSize=15,
+            leading=19,
+            textColor=colors.HexColor('#e11d48')  # Rose-red for escalation urgency
+        )
+
+        subtitle_style = ParagraphStyle(
+            'DocSubTitleSecond',
+            parent=styles['Normal'],
+            fontName='Helvetica-Bold',
+            fontSize=9,
+            leading=13,
+            textColor=colors.HexColor('#dc2626')
+        )
+
+        heading_style = ParagraphStyle(
+            'SectionHeadingSecond',
+            parent=styles['Heading2'],
+            fontName='Helvetica-Bold',
+            fontSize=10,
+            leading=14,
+            textColor=colors.HexColor('#0f172a'),
+            spaceBefore=8,
+            spaceAfter=3
+        )
+
+        body_style = ParagraphStyle(
+            'BodySecond',
+            parent=styles['Normal'],
+            fontName='Helvetica',
+            fontSize=8.5,
+            leading=12,
+            textColor=colors.HexColor('#334155')
+        )
+
+        alert_box_style = ParagraphStyle(
+            'AlertBoxSecond',
+            parent=styles['Normal'],
+            fontName='Helvetica-Bold',
+            fontSize=8,
+            leading=11,
+            textColor=colors.HexColor('#991b1b')
+        )
+
+        story = []
+
+        # Urgent Header
+        story.append(Paragraph("SECOND FORMAL NOTICE: STATUTORY NON-COMPLIANCE & REPEAT INFRINGER ACTION", title_style))
+        story.append(Paragraph(f"<b>LEGAL ESCALATION:</b> IGNORED 1ST REPORT ({original_report_id}) & CONTINUED RE-UPLOAD BY SAME ID", subtitle_style))
+        story.append(Paragraph(f"<b>Case ID:</b> {incident_id} | <b>Target Network:</b> {platform} Legal & Trust Team | <b>Urgency:</b> STATUTORY PRIORITY 1", body_style))
+        story.append(Spacer(1, 4))
+        story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor('#e11d48'), spaceBefore=2, spaceAfter=8))
+
+        # 1. Affected Person Details
+        story.append(Paragraph("1. AFFECTED PERSON DETAILS (VICTIM PROFILE)", heading_style))
+        story.append(Paragraph(f"• <b>Full Name:</b> {protected_profile} | <b>Role:</b> Research Scientist & Verified Creator", body_style))
+        story.append(Paragraph("• <b>Protected Handles:</b> @evelyn_carter, @drcarter_bio", body_style))
+        story.append(Paragraph("• <b>Representation:</b> SENTINEL Automated Containment System acting with verified audit consent", body_style))
+        story.append(Spacer(1, 6))
+
+        # 2. Offending Account & Repeat Infringer Identity
+        story.append(Paragraph("2. REPEAT INFRINGER ACCOUNT IDENTITY & POSTING HISTORY", heading_style))
+        story.append(Paragraph(f"• <b>Offender ID / Username:</b> <b>{offender_account}</b> (CONFIRMED REPEAT OFFENDER)", body_style))
+        story.append(Paragraph("• <b>Prior Infringements Logged:</b> 4 Verified Recurrent Violations on record", body_style))
+        story.append(Paragraph("• <b>Offender Pattern:</b> Deliberately re-uploading cropped and audio-synthesized variants following prior notice", body_style))
+        story.append(Spacer(1, 6))
+
+        # 3. Record of Ignored 1st Report
+        story.append(Paragraph("3. RECORD OF UNANSWERED / IGNORED INITIAL REPORT (AUDIT TRAIL)", heading_style))
+        story.append(Paragraph(f"• <b>Initial Notice Ticket:</b> #{original_report_id} (Dispatched via {platform} Trust & Safety Gateway)", body_style))
+        story.append(Paragraph("• <b>Original Transmission Date:</b> August 28, 2026, 15:00 UTC", body_style))
+        story.append(Paragraph("• <b>Platform Response Status:</b> <b>UNRESPONSIVE / IGNORED (>48 Hours Exceeded)</b>", alert_box_style))
+        story.append(Paragraph("• <b>Statutory Notice Period:</b> Platform has failed to act expeditiously to remove the infringing content, causing severe ongoing viral harm.", body_style))
+        story.append(Spacer(1, 6))
+
+        # 4. New Re-Upload Forensic Evidence
+        story.append(Paragraph("4. NEW RE-UPLOAD FORENSIC PROOF (RECURRENT LEAK)", heading_style))
+        story.append(Paragraph(f"• <b>Active Recurrent URL:</b> <u>{reupload_url}</u>", body_style))
+        story.append(Paragraph("• <b>New Evidence Record:</b> EVD-2041-006 (Recurrent Video Reel derivative with voice clone)", body_style))
+        story.append(Paragraph("• <b>Perceptual Image Hash (pHash):</b> pHash-8f9a2b1c70 (Hamming Distance: 2 from baseline)", body_style))
+        story.append(Paragraph("• <b>Cryptographic SHA-256:</b> 5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6", body_style))
+        story.append(Paragraph("• <b>Biometric Facial Match:</b> 96% Conclusive Biometric Match across 3 reference baseline angles", body_style))
+        story.append(Spacer(1, 6))
+
+        # 5. Demanded Escalated Remedies
+        story.append(Paragraph("5. MANDATORY ESCALATED REMEDIES DEMANDED", heading_style))
+        story.append(Paragraph("<b>1. Immediate Global Deletion:</b> Expeditiously take down the re-upload and all cached mirror derivatives across platform CDNs.", body_style))
+        story.append(Paragraph(f"<b>2. Permanent Account Termination:</b> Permanently terminate offender account <b>{offender_account}</b> pursuant to repeat infringer policy under 17 U.S.C. § 512(i) and EU Digital Services Act Article 23.", body_style))
+        story.append(Paragraph("<b>3. Hash-Level Blacklisting:</b> Ingest the provided pHash and SHA-256 into platform automated upload filter to block further re-uploads.", body_style))
+        story.append(Spacer(1, 6))
+
+        # 6. Loss of Safe Harbor & Reservation of Rights
+        story.append(Paragraph("6. SAFE HARBOR FORFEITURE & LEGAL RESERVATION OF RIGHTS", heading_style))
+        story.append(Paragraph('<i>&quot;NOTICE: Having received actual formal notice of infringement and subsequently permitted repeat re-upload by the identical account, the platform can no longer claim safe harbor immunity under 17 U.S.C. Section 512(c)(1)(A). Continued hosting exposes the service provider to direct and contributory copyright and right-of-publicity liability with statutory damages up to $150,000 per willful violation. All civil and injunctive remedies are expressly reserved.&quot;</i>', body_style))
+        story.append(Spacer(1, 8))
+
+        story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor('#e11d48'), spaceBefore=4, spaceAfter=6))
+        story.append(Paragraph("SENTINEL AI Digital Incident Containment • Official Second-Notice Statutory Escalation", body_style))
+
+        doc.build(story)
+        pdf_data = buffer.getvalue()
+        buffer.close()
+        return pdf_data
+

@@ -39,3 +39,27 @@ def download_report_pdf(incident_id: str):
         media_type="application/pdf",
         headers={"Content-Disposition": f"attachment; filename=SENTINEL_DOSSIER_{incident_id}.pdf"}
     )
+
+@router.get("/{incident_id}/second-notice/pdf")
+def download_second_notice_pdf(
+    incident_id: str,
+    original_report_id: str = "REP-2041-01",
+    offender: str = "@viral_leak_x",
+    platform: str = "Instagram"
+):
+    """Downloads official Escalated 2nd-Timed Report PDF for ignored content and repeat re-uploads."""
+    pdf_bytes = PDFReportGenerator.generate_second_notice_pdf(
+        incident_id=incident_id,
+        original_report_id=original_report_id,
+        protected_profile="Dr. Evelyn Carter",
+        offender_account=offender,
+        reupload_url="https://instagram.com/reel/C9x81kLmPq/",
+        platform=platform
+    )
+
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f"attachment; filename=SENTINEL_SECOND_NOTICE_{incident_id}.pdf"}
+    )
+

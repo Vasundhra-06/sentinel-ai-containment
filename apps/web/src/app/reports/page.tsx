@@ -1,17 +1,65 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Send, FileText, CheckCircle2, AlertTriangle, ExternalLink, Download, UserCheck, Image as ImageIcon, Heart, Lock } from 'lucide-react';
+import Link from 'next/link';
+import { 
+  FileText, 
+  Download, 
+  Send, 
+  ShieldCheck, 
+  AlertTriangle, 
+  UserCheck, 
+  Lock, 
+  ExternalLink, 
+  Heart, 
+  Image as ImageIcon,
+  Flame,
+  CheckCircle2,
+  Clock,
+  Scale
+} from 'lucide-react';
 import { ReportDossierModal } from '@/components/ReportDossierModal';
 
 export default function ReportsPage() {
   const [isDossierOpen, setIsDossierOpen] = useState(false);
+  const [activeModalNotice, setActiveModalNotice] = useState<'first' | 'second'>('first');
+  const [sentReports, setSentReports] = useState<Record<string, boolean>>({});
+
+  const handleSendSecondNotice = (id: string) => {
+    setSentReports((prev) => ({ ...prev, [id]: true }));
+  };
+
+  const openDossier = (type: 'first' | 'second') => {
+    setActiveModalNotice(type);
+    setIsDossierOpen(true);
+  };
 
   const reports = [
     {
+      id: 'REP-2041-02-ESCALATED',
+      isEscalated: true,
+      app: 'Instagram (Meta Trust & Safety)',
+      ownerTeam: 'Meta Legal & General Counsel',
+      status: '2nd Notice Ready (1st Report Ignored > 48h)',
+      statusColor: 'bg-rose-500/20 text-rose-300 border-rose-500/50',
+      dateSent: 'Today, Overdue 52 Hours',
+      victimName: 'Dr. Evelyn Carter',
+      victimProfession: 'Research Scientist & Content Creator',
+      offenderAccount: '@viral_leak_x (Repeat Offender: 4 Recurrent Posts)',
+      targetUrl: 'https://instagram.com/reel/C9x81kLmPq/',
+      category: 'Statutory Non-Compliance & Persistent Re-Upload',
+      evidenceId: 'EVD-2041-006 (Recurrent Video Derivative with Synthesized Voice)',
+      pHash: 'pHash-8f9a2b1c70',
+      sha256: '5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6',
+      matchScore: 96,
+      originalRef: 'REF-PHOTO-ORIGINAL-01 (Baseline Photo)',
+      impactStatement: 'Platform owner failed to act on verified 1st Notice (#REP-2041-01), enabling the same offender ID to re-upload viral deepfakes. Formal safe-harbor forfeiture notice issued.',
+    },
+    {
       id: 'REP-2041-01',
+      isEscalated: false,
       app: 'Instagram',
-      ownerTeam: 'Meta Trust & Safety Team',
+      ownerTeam: 'Instagram Trust & Safety Team',
       status: 'Removed',
       statusColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
       dateSent: 'Aug 28, 2026',
@@ -19,8 +67,8 @@ export default function ReportsPage() {
       victimProfession: 'Research Scientist & Content Creator',
       offenderAccount: '@viral_leak_x',
       targetUrl: 'https://instagram.com/p/sample_leak_01',
-      category: 'Impersonation & Non-Consensual Media',
-      evidenceId: 'EVD-2041-01 (Manipulated Photo & Fake Caption)',
+      category: 'Impersonation & Defamation',
+      evidenceId: 'EVD-2041-01 (Manipulated Screenshot & Fake Quote)',
       pHash: 'pHash-8f9a2b1c4e',
       sha256: 'ab4f91dc88231a47e0912389174128941029381029381029381029381',
       matchScore: 96,
@@ -29,6 +77,7 @@ export default function ReportsPage() {
     },
     {
       id: 'REP-2041-02',
+      isEscalated: false,
       app: 'X (Twitter)',
       ownerTeam: 'X Safety & Compliance Team',
       status: 'Restricted',
@@ -48,6 +97,7 @@ export default function ReportsPage() {
     },
     {
       id: 'REP-2041-03',
+      isEscalated: false,
       app: 'Reddit',
       ownerTeam: 'Reddit Admin & Subreddit Mods',
       status: 'Rejected',
@@ -68,27 +118,54 @@ export default function ReportsPage() {
   ];
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto font-sans">
+    <div className="space-y-8 max-w-5xl mx-auto font-sans pb-12">
       {/* Header Banner */}
       <div className="glass-card p-6 rounded-2xl border border-cyan-500/20 bg-slate-900/90 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <span className="text-[10px] font-extrabold tracking-widest text-cyan-400 uppercase font-mono">TAKEDOWN REPORTS LOG</span>
+          <span className="text-[10px] font-extrabold tracking-widest text-cyan-400 uppercase font-mono">
+            TAKEDOWN & STATUTORY REPORTS LOG
+          </span>
           <h1 className="text-2xl font-extrabold text-white mt-0.5">
-            Takedown & Restriction Reports Sent To Social Media Apps
+            Takedown & Escalated 2nd-Timed Reports
           </h1>
-          <p className="text-xs text-slate-400 mt-1">Standardized 5-section reports detailing victim identity, offender account, unusual leak proof, original reference image, and victim impact statement.</p>
+          <p className="text-xs text-slate-400 mt-1">
+            Standard 1st reports and Escalated 2nd-Timed statutory non-compliance notices for ignored reports and repeat re-uploads.
+          </p>
         </div>
       </div>
 
       {/* Reports List */}
       <div className="space-y-6">
         {reports.map((rpt) => (
-          <div key={rpt.id} className="glass-card p-6 sm:p-7 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-5 shadow-xl hover:border-cyan-500/40 transition-all">
-            
+          <div 
+            key={rpt.id} 
+            className={`glass-card p-6 sm:p-7 rounded-2xl border bg-slate-900/90 space-y-5 shadow-xl transition-all ${
+              rpt.isEscalated 
+                ? 'border-rose-500/40 hover:border-rose-500/60 shadow-rose-950/30 ring-1 ring-rose-500/20' 
+                : 'border-slate-800 hover:border-cyan-500/40'
+            }`}
+          >
+            {/* Escalated Alert Badge for 2nd Notice */}
+            {rpt.isEscalated && (
+              <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-500/50 flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <Flame className="w-4 h-4 text-rose-400 animate-pulse" />
+                  <span className="text-xs font-bold text-rose-200">
+                    2ND-TIMED STATUTORY ESCALATION: 1st Report Ignored by Platform & Re-Uploaded by Same Account
+                  </span>
+                </div>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono font-bold border border-rose-500/40">
+                  DMCA 17 U.S.C. § 512(i)
+                </span>
+              </div>
+            )}
+
             {/* Report Title Row */}
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
               <div className="flex items-center gap-3">
-                <span className="text-xs font-mono font-bold text-cyan-400">{rpt.id}</span>
+                <span className={`text-xs font-mono font-bold ${rpt.isEscalated ? 'text-rose-400' : 'text-cyan-400'}`}>
+                  {rpt.id}
+                </span>
                 <span className="text-sm font-extrabold text-white">{rpt.app}</span>
                 <span className="text-[10px] px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 font-medium">
                   Owner: <strong className="text-slate-100">{rpt.ownerTeam}</strong>
@@ -99,9 +176,8 @@ export default function ReportsPage() {
               </span>
             </div>
 
-            {/* 5-SECTION STANDARDIZED REPORT SUMMARY */}
+            {/* STANDARDIZED REPORT SUMMARY */}
             <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-4 text-xs">
-              
               {/* Section 1: Victim Profile */}
               <div className="space-y-1">
                 <span className="text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
@@ -114,8 +190,8 @@ export default function ReportsPage() {
 
               {/* Section 2: Offending Account */}
               <div className="space-y-1">
-                <span className="text-[11px] font-bold text-amber-400 flex items-center gap-1.5">
-                  <AlertTriangle className="w-3.5 h-3.5" /> 2. Offending Account & Creator Details
+                <span className={`text-[11px] font-bold flex items-center gap-1.5 ${rpt.isEscalated ? 'text-rose-400' : 'text-amber-400'}`}>
+                  <AlertTriangle className="w-3.5 h-3.5" /> 2. Offending Account & Violation Pattern
                 </span>
                 <p className="text-slate-300 pl-5">
                   Offender Handle: <strong className="text-rose-400">{rpt.offenderAccount}</strong> • Category: <strong className="text-slate-100">{rpt.category}</strong>
@@ -146,32 +222,57 @@ export default function ReportsPage() {
               {/* Section 5: Victim Impact Statement */}
               <div className="space-y-1">
                 <span className="text-[11px] font-bold text-rose-400 flex items-center gap-1.5">
-                  <Heart className="w-3.5 h-3.5" /> 5. Victim Impact Statement
+                  <Heart className="w-3.5 h-3.5" /> 5. Victim Impact Statement & Statutory Demand
                 </span>
                 <p className="text-slate-300 pl-5 italic text-[11px] bg-slate-900 p-2.5 rounded-lg border border-slate-800">
-                  "{rpt.impactStatement}"
+                  &quot;{rpt.impactStatement}&quot;
                 </p>
               </div>
-
             </div>
 
             {/* Card Footer Actions */}
-            <div className="flex items-center justify-between pt-1 text-xs">
-              <span className="text-slate-400 text-[11px]">Date Sent: {rpt.dateSent}</span>
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-1 text-xs">
+              <span className="text-slate-400 text-[11px] font-mono">Date / Audit: {rpt.dateSent}</span>
 
-              <button
-                onClick={() => setIsDossierOpen(true)}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white font-bold text-xs shadow-md shadow-cyan-950/40 transition-all flex items-center gap-1.5"
-              >
-                <Download className="w-3.5 h-3.5" /> View Standardized PDF Report
-              </button>
+              <div className="flex items-center gap-2">
+                {rpt.isEscalated && (
+                  sentReports[rpt.id] ? (
+                    <span className="px-3.5 py-2 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center gap-1.5">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400" /> 2nd Notice Dispatched to Meta Legal!
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => handleSendSecondNotice(rpt.id)}
+                      className="px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-md shadow-rose-950/50 transition-all flex items-center gap-1.5"
+                    >
+                      <Send className="w-3.5 h-3.5" /> Send 2nd Notice to Platform Owner
+                    </button>
+                  )
+                )}
+
+                <button
+                  onClick={() => openDossier(rpt.isEscalated ? 'second' : 'first')}
+                  className={`px-4 py-2 rounded-xl font-bold text-xs shadow-md transition-all flex items-center gap-1.5 ${
+                    rpt.isEscalated
+                      ? 'bg-gradient-to-r from-rose-500 to-amber-600 hover:from-rose-400 hover:to-amber-500 text-white shadow-rose-950/40'
+                      : 'bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white shadow-cyan-950/40'
+                  }`}
+                >
+                  <Download className="w-3.5 h-3.5" /> 
+                  {rpt.isEscalated ? 'Preview 2nd-Timed Escalated Report' : 'View Standardized PDF Report'}
+                </button>
+              </div>
             </div>
 
           </div>
         ))}
       </div>
 
-      <ReportDossierModal isOpen={isDossierOpen} onClose={() => setIsDossierOpen(false)} />
+      <ReportDossierModal 
+        isOpen={isDossierOpen} 
+        onClose={() => setIsDossierOpen(false)} 
+        defaultNotice={activeModalNotice} 
+      />
     </div>
   );
 }
