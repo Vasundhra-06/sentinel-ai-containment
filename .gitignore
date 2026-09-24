@@ -36,6 +36,20 @@ __pycache__/
 env/
 venv/
 ENV/
+.venv/
+.local/
+*.local.db
+*.local.db-*
+# Local case data, credentials, backups and generated validation output
+*.db
+*.db-*
+*.db.bak
+*.sqlite
+*.sqlite3
+*.bak
+*.log
+validation/validation_results.json
+validation/validation_results.csv
 
 # IDE
 .vscode/

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
   Menu,
+  Globe,
   Zap,
   Shield, 
   LayoutDashboard, 
@@ -61,7 +62,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
       description: 'Meta Trust & Safety confirmed violation and permanently removed post REP-2041-01.',
       time: '1 hour ago',
       read: false,
-      link: '/reports',
+      link: '/platforms',
       badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
       icon: CheckCircle2,
     },
@@ -83,7 +84,7 @@ export function Navigation({ children }: { children: React.ReactNode }) {
       description: 'X Safety placed sensitive content warning on status 1948201 in target region.',
       time: 'Yesterday',
       read: true,
-      link: '/reports',
+      link: '/platforms',
       badgeColor: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
       icon: Info,
     },
@@ -101,9 +102,14 @@ export function Navigation({ children }: { children: React.ReactNode }) {
 
   const navItems: { name: string; path: string; icon: any; badge?: string }[] = [
     { name: 'Home Dashboard', path: '/dashboard', icon: LayoutDashboard },
-    { name: 'Main Cases', path: '/incidents', icon: AlertTriangle },
-    { name: 'Takedown Requests', path: '/reports', icon: Send },
-    { name: 'AI Autopilot Containment', path: '/autopilot', icon: Zap, badge: 'ACTIVE' },
+    { name: 'Master Incidents', path: '/incidents', icon: AlertTriangle },
+    { name: 'Pairwise Compare', path: '/compare', icon: Search, badge: 'CROP AI' },
+    { name: 'Live Detections', path: '/detections', icon: Camera },
+    { name: 'Partner Registry & Demo', path: '/partners', icon: ShieldCheck, badge: 'DEMO' },
+    { name: 'Re-Upload Watch', path: '/monitoring', icon: Zap },
+    { name: 'Evidence Vault', path: '/evidence', icon: Lock },
+    { name: 'Platform Protection Hub', path: '/platforms', icon: Globe, badge: '5 APPS' },
+    { name: 'Access & Privacy', path: '/settings', icon: UserCheck },
   ];
 
   return (

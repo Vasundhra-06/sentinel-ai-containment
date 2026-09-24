@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import { Navigation } from '@/components/Navigation';
-import { SentinelUserProvider } from '@/context/SentinelUserContext';
+import { AppShell } from '@/components/AppShell';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -40,9 +39,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
       <body className="bg-[#070b14] text-slate-100 antialiased font-sans overflow-x-hidden min-h-screen">
-        <SentinelUserProvider>
-          <Navigation>{children}</Navigation>
-        </SentinelUserProvider>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

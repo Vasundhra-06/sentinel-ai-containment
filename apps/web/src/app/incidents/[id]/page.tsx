@@ -11,10 +11,11 @@ import {
   BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell 
 } from 'recharts';
 import { PropagationGraph } from '@/components/PropagationGraph';
-import { ReportDossierModal } from '@/components/ReportDossierModal';
+
 
 export default function IncidentDetailPage() {
-  const [activeTab, setActiveTab] = useState<'reports' | 'socialSpread' | 'occurrences' | 'propagation'>('socialSpread');
+  const [activeTab, setActiveTab] = useState<'stopncii' | 'socialSpread' | 'occurrences' | 'propagation' | 'variants'>('stopncii');
+  const [isMediaBlurred, setIsMediaBlurred] = useState<boolean>(true);
   const [isDossierOpen, setIsDossierOpen] = useState(false);
   const [selectedReportDossier, setSelectedReportDossier] = useState<any>(null);
   const [selectedEvidenceModal, setSelectedEvidenceModal] = useState<any>(null);
@@ -231,6 +232,7 @@ export default function IncidentDetailPage() {
       {/* Tabs Row */}
       <div className="flex border-b border-slate-800 space-x-2 text-xs font-bold overflow-x-auto">
         {[
+          { id: 'stopncii', label: 'StopNCII Multi-Platform Containment (5 Apps)', icon: Globe },
           { id: 'socialSpread', label: 'Spread in Each Social App (X & Y Graph)', icon: BarChart2 },
           { id: 'occurrences', label: 'Found Fake Posts (27)', icon: AlertTriangle },
           { id: 'propagation', label: 'Post Spread Map', icon: Network },
@@ -255,7 +257,138 @@ export default function IncidentDetailPage() {
       </div>
 
       {/* TAB: Spread in Each Social App (2D X-AXIS & Y-AXIS GRAPH) */}
-      {activeTab === 'socialSpread' && (
+            {/* TAB: StopNCII Platform Containment */}
+      {activeTab === 'stopncii' && (
+        <div className="space-y-6">
+          <div className="glass-card p-6 sm:p-7 rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-slate-900 via-[#0a1428] to-slate-950 space-y-4 shadow-xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <span className="px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[10px] font-mono font-bold uppercase tracking-wider">
+                  StopNCII Standard Activated
+                </span>
+                <h3 className="text-xl font-black text-white mt-1.5 flex items-center gap-2">
+                  <Globe className="w-5 h-5 text-cyan-400" /> Automated Cross-Platform Containment for HC-2041
+                </h3>
+                <p className="text-xs text-slate-300 mt-1 max-w-2xl">
+                  Traditional manual reporting forms have been replaced. Cryptographic SHA-256 and multi-scale perceptual tile fingerprints are synchronized across all 5 participating platforms for instant pre-upload interception.
+                </p>
+              </div>
+
+              <Link
+                href="/platforms"
+                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white text-xs font-black flex items-center gap-2 transition-all shadow-lg shadow-cyan-500/20 flex-shrink-0"
+              >
+                Open Platform Protection Hub <ExternalLink className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-mono text-xs">
+              <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+                <span className="text-[10px] text-slate-400 block uppercase">Participating Platforms</span>
+                <strong className="text-white text-sm">5 Platforms Active</strong>
+              </div>
+              <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+                <span className="text-[10px] text-slate-400 block uppercase">Synced Digital Hashes</span>
+                <strong className="text-cyan-400 text-sm">14 Registry Descriptors</strong>
+              </div>
+              <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+                <span className="text-[10px] text-slate-400 block uppercase">Privacy Guarantee</span>
+                <strong className="text-emerald-400 text-sm">Zero Raw Media</strong>
+              </div>
+              <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+                <span className="text-[10px] text-slate-400 block uppercase">Containment Status</span>
+                <strong className="text-emerald-400 text-sm">100% Intercepted</strong>
+              </div>
+            </div>
+          </div>
+
+          {/* 5 PLATFORM CARDS FOR THIS INCIDENT */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              {
+                platform: 'Instagram',
+                company: 'Meta StopNCII Network',
+                brand_color: 'from-pink-500 via-purple-500 to-amber-500',
+                action: 'PRE-UPLOAD BLOCKED',
+                badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
+                details: 'Client-side upload gateway intercepts matching perceptual tile hashes before posting to Feed/Reels.',
+                latency: '18ms',
+                status: 'CONTAINMENT ACTIVE'
+              },
+              {
+                platform: 'Facebook',
+                company: 'Meta Trust & Safety Exchange',
+                brand_color: 'from-blue-600 to-cyan-600',
+                action: 'AUTOMATICALLY REMOVED',
+                badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+                details: 'Hash quarantine feed purges re-shared copies and blocks group uploads matching HC-2041 signatures.',
+                latency: '22ms',
+                status: 'CONTAINMENT ACTIVE'
+              },
+              {
+                platform: 'X (formerly Twitter)',
+                company: 'X Safety Operations',
+                brand_color: 'from-slate-700 to-slate-900',
+                action: 'PRE-UPLOAD BLOCKED',
+                badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
+                details: 'Threat intelligence signature match rejects tweet media attachment at API ingestion.',
+                latency: '14ms',
+                status: 'CONTAINMENT ACTIVE'
+              },
+              {
+                platform: 'YouTube',
+                company: 'Google Content Safety Network',
+                brand_color: 'from-red-600 to-rose-700',
+                action: 'UPLOAD INTERCEPTED',
+                badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
+                details: 'Video keyframe and thumbnail matching intercepts Shorts/video ingestion pipeline.',
+                latency: '31ms',
+                status: 'CONTAINMENT ACTIVE'
+              },
+              {
+                platform: 'Reddit',
+                company: 'Reddit Trust & Safety Operations',
+                brand_color: 'from-orange-500 to-amber-600',
+                action: 'POST BLOCKED AT INGESTION',
+                badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
+                details: 'Direct media uploads filtered and third-party host links quarantined before subreddit feeds.',
+                latency: '16ms',
+                status: 'CONTAINMENT ACTIVE'
+              }
+            ].map((node) => (
+              <div key={node.platform} className="glass-card p-5 rounded-3xl border border-slate-800 bg-slate-900/80 space-y-3 shadow-xl">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <div className="flex items-center gap-2.5">
+                    <div className={`w-8 h-8 rounded-xl bg-gradient-to-tr ${node.brand_color} flex items-center justify-center text-white font-black text-xs shadow-md`}>
+                      {node.platform.slice(0, 2).toUpperCase()}
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-black text-white">{node.platform}</h4>
+                      <span className="text-[10px] text-slate-400">{node.company}</span>
+                    </div>
+                  </div>
+                  <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${node.badgeColor}`}>
+                    {node.action}
+                  </span>
+                </div>
+
+                <p className="text-[11px] text-slate-300 leading-relaxed">
+                  {node.details}
+                </p>
+
+                <div className="pt-2 border-t border-slate-800 flex justify-between items-center text-[10px] font-mono text-slate-400">
+                  <span>Latency: <strong className="text-white">{node.latency}</strong></span>
+                  <span className="text-emerald-400 font-bold flex items-center gap-1">
+                    <CheckCircle2 className="w-3 h-3" /> {node.status}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+{activeTab === 'socialSpread' && (
         <div className="space-y-6">
           
           {/* Header Card */}
@@ -537,7 +670,7 @@ export default function IncidentDetailPage() {
         </div>
       )}
 
-      <ReportDossierModal isOpen={isDossierOpen} onClose={() => setIsDossierOpen(false)} />
+      
     </div>
   );
 }

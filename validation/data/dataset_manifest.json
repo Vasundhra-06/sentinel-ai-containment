@@ -1,0 +1,242 @@
+[
+  {
+    "sample_id": "T001",
+    "category": "exact_duplicate",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T001_exact_01.png",
+    "description": "Byte-for-byte exact duplicate of reference"
+  },
+  {
+    "sample_id": "T002",
+    "category": "exact_duplicate",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T002_exact_02.png",
+    "description": "Exact duplicate of reference image"
+  },
+  {
+    "sample_id": "T003",
+    "category": "resize",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T003_resize_50.png",
+    "description": "Resized down to 50% dimension (200x200)"
+  },
+  {
+    "sample_id": "T004",
+    "category": "resize",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T004_resize_200.png",
+    "description": "Resized up to 200% dimension (800x800)"
+  },
+  {
+    "sample_id": "T005",
+    "category": "compression",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T005_compress_q30.jpg",
+    "description": "JPEG compression artifacts with Quality=30"
+  },
+  {
+    "sample_id": "T006",
+    "category": "compression",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T006_compress_q15.jpg",
+    "description": "Extreme compression artifacts with Quality=15"
+  },
+  {
+    "sample_id": "T007",
+    "category": "crop",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T007_crop_85.png",
+    "description": "Mild center crop (85% preserved area)"
+  },
+  {
+    "sample_id": "T008",
+    "category": "crop",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T008_crop_60.png",
+    "description": "Moderate center crop (60% preserved area)"
+  },
+  {
+    "sample_id": "T009",
+    "category": "crop",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T009_crop_extreme_30.png",
+    "description": "Severe 30% corner crop testing pHash limit"
+  },
+  {
+    "sample_id": "T010",
+    "category": "brightness_contrast",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T010_bright_plus40.png",
+    "description": "Increased brightness by +40%"
+  },
+  {
+    "sample_id": "T011",
+    "category": "brightness_contrast",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T011_contrast_plus30.png",
+    "description": "Increased contrast by +30%"
+  },
+  {
+    "sample_id": "T012",
+    "category": "text_overlay",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T012_watermark_overlay.png",
+    "description": "High-contrast watermark banner text overlay"
+  },
+  {
+    "sample_id": "T013",
+    "category": "screenshot_style",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T013_screenshot_border.png",
+    "description": "Simulated screenshot with UI frame and padding"
+  },
+  {
+    "sample_id": "T014",
+    "category": "re_encoded",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T014_reencode.webp",
+    "description": "Re-encoded format transcoding from PNG to WebP"
+  },
+  {
+    "sample_id": "T015",
+    "category": "text_match",
+    "expected_label": "RELATED",
+    "modality": "text",
+    "file_name": "T015_text_exact.txt",
+    "description": "Exact name and handle match in text post"
+  },
+  {
+    "sample_id": "T016",
+    "category": "text_match",
+    "expected_label": "RELATED",
+    "modality": "text",
+    "file_name": "T016_text_paraphrase.txt",
+    "description": "Paraphrased text containing handle and target name"
+  },
+  {
+    "sample_id": "T017",
+    "category": "text_match",
+    "expected_label": "RELATED",
+    "modality": "text",
+    "file_name": "T017_text_subtle.txt",
+    "description": "Direct name mention without handle"
+  },
+  {
+    "sample_id": "T018",
+    "category": "blur_noise",
+    "expected_label": "RELATED",
+    "modality": "image",
+    "file_name": "T018_heavy_noise_blur.png",
+    "description": "Heavy Gaussian blur (radius=10) disrupting high frequencies"
+  },
+  {
+    "sample_id": "T019",
+    "category": "unrelated_image",
+    "expected_label": "NOT_RELATED",
+    "modality": "image",
+    "file_name": "T019_neg_nature_01.png",
+    "description": "Synthetic sunny landscape with hills"
+  },
+  {
+    "sample_id": "T020",
+    "category": "unrelated_image",
+    "expected_label": "NOT_RELATED",
+    "modality": "image",
+    "file_name": "T020_neg_abstract_02.png",
+    "description": "Concentric radial circles on light background"
+  },
+  {
+    "sample_id": "T021",
+    "category": "unrelated_image",
+    "expected_label": "NOT_RELATED",
+    "modality": "image",
+    "file_name": "T021_neg_solid_color.png",
+    "description": "Retail advertisement graphic"
+  },
+  {
+    "sample_id": "T022",
+    "category": "unrelated_text",
+    "expected_label": "NOT_RELATED",
+    "modality": "text",
+    "file_name": "T022_neg_text_recipe.txt",
+    "description": "Culinary pizza recipe text"
+  },
+  {
+    "sample_id": "T023",
+    "category": "unrelated_text",
+    "expected_label": "NOT_RELATED",
+    "modality": "text",
+    "file_name": "T023_neg_text_finance.txt",
+    "description": "Macroeconomic interest rate news snippet"
+  },
+  {
+    "sample_id": "T024",
+    "category": "unrelated_text",
+    "expected_label": "NOT_RELATED",
+    "modality": "text",
+    "file_name": "T024_neg_text_weather.txt",
+    "description": "Local meteorological forecast report"
+  },
+  {
+    "sample_id": "T025",
+    "category": "unrelated_text",
+    "expected_label": "NOT_RELATED",
+    "modality": "text",
+    "file_name": "T025_neg_code_snippet.txt",
+    "description": "Python algorithm implementation"
+  },
+  {
+    "sample_id": "T026",
+    "category": "unrelated_text",
+    "expected_label": "NOT_RELATED",
+    "modality": "text",
+    "file_name": "T026_neg_sports_news.txt",
+    "description": "Sports tournament news report"
+  },
+  {
+    "sample_id": "T027",
+    "category": "unrelated_image",
+    "expected_label": "NOT_RELATED",
+    "modality": "image",
+    "file_name": "T027_neg_chart_graph.png",
+    "description": "Statistical bar graph visualization"
+  },
+  {
+    "sample_id": "T028",
+    "category": "unrelated_image",
+    "expected_label": "NOT_RELATED",
+    "modality": "image",
+    "file_name": "T028_neg_architecture.png",
+    "description": "Architectural skyscraper skyline graphic"
+  },
+  {
+    "sample_id": "T029",
+    "category": "unrelated_image",
+    "expected_label": "NOT_RELATED",
+    "modality": "image",
+    "file_name": "T029_neg_astronomy.png",
+    "description": "Deep space starfield with purple nebula ring"
+  },
+  {
+    "sample_id": "T030",
+    "category": "name_collision",
+    "expected_label": "NOT_RELATED",
+    "modality": "text",
+    "file_name": "T030_neg_partial_name_collision.txt",
+    "description": "Partial name token collision without handle match"
+  }
+]

@@ -607,10 +607,10 @@ function DetectionWorkbenchForm() {
 
                   <div className="flex items-center gap-2">
                     <a
-                      href="/reports"
+                      href="/platforms"
                       className="px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-xs font-bold border border-cyan-500/40 transition-all flex items-center gap-1.5"
                     >
-                      <FileText className="w-3.5 h-3.5" /> View Case File
+                      <ShieldCheck className="w-3.5 h-3.5" /> Platform Defense
                     </a>
                   </div>
                 </div>

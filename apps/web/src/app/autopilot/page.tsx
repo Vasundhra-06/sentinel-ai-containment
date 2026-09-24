@@ -270,10 +270,10 @@ export default function AutopilotPage() {
                     <ExternalLink className="w-3.5 h-3.5 text-cyan-400" /> Inspect Post
                   </a>
                   <Link
-                    href="/reports"
+                    href="/platforms"
                     className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5"
                   >
-                    <FileText className="w-3.5 h-3.5 text-slate-400" /> Evidence Dossier
+                    <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" /> Platform Intercept
                   </Link>
                 </div>
               </div>

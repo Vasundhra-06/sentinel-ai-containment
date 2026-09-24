@@ -1,0 +1,43 @@
+# SENTINEL implementation audit
+
+## Scope and evidence
+
+This is a read-only audit of the repository as found on 22 September 2026. The research report is treated as the product reference; code, route registration, models, configuration, tests, and rendered report pages are the implementation evidence. Existing user changes were preserved. No production source or database was changed. The supplied `Microsoft.Services.Store.winmd` was identified as a Windows metadata binary and is not referenced by the repository; it is not treated as a SENTINEL capability.
+
+Status meanings: **IMPLEMENTED** means the code performs the bounded function; **PARTIAL** means a real seam or local behavior exists but important controls or scope are missing; **MOCK** means a fixture, fallback, or UI value supplies the result; **MISSING** means no implementation; **BLOCKED_BY_EXTERNAL_ACCESS** means a real adapter requires credentials, agreement, or platform permission; **NOT_RECOMMENDED** means the report explicitly rejects the proposed behavior.
+
+## Findings
+
+| Feature / report requirement | Current implementation and evidence | Status | Problem / recommended action | Priority |
+|---|---|---|---|---|
+| Tenant, user, authorization and mandate | Models contain no tenant/user/RBAC/mandate tables; route handlers accept database dependencies without an authenticated principal. | MISSING | Add identity, tenant isolation, mandate evidence, and policy checks before multi-client use. | P0 |
+| Master incident and occurrence separation | `models.py` has incidents, occurrences, variants; `incidents.py` links and reviews them. IDs are client supplied and occurrence-to-incident checks are absent. | PARTIAL | Server-generated IDs, tenant-scoped ownership, immutable occurrence versions, reversible split/merge, and separate relation/action decisions. | P0 |
+| Evidence vault and provenance | Evidence records contain hashes/metadata but no blob key, size, MIME, capture provenance, retention hold, or immutable audit chain. | PARTIAL | Private object storage, envelope encryption, content-addressed artifacts, provenance, retention/hold and append-only audit events. | P0 |
+| Exact and perceptual fingerprints | `fingerprint_service.py` computes SHA and image hashes; malformed-image fallback labels MD5 fragments as image hashes. | PARTIAL | Strict algorithm/version fields, valid dimensions, bounded decode, test vectors, and explicit unavailable/error states. | P1 |
+| Crop/transformation matching | `advanced_matcher.py` uses SIFT/USAC, regional hashes and MobileNet features. It is a useful experiment but has eager model/download behavior and hand thresholds. | PARTIAL | Keep independent retrieval branches; pin/version models; benchmark hard negatives; calibrate thresholds; persist signal-level assessments. | P1 |
+| Copy-oriented embeddings | Generic MobileNet features are used; no copy-specific index or validated retrieval benchmark. | PARTIAL | Evaluate SSCD or another licensed copy model, with model-card/license review and an offline index. | P2 / RESEARCH |
+| OCR and text | OCR adapter can report unavailable; lexical `SequenceMatcher` is used and UI calls some results semantic. | PARTIAL | Label lexical evidence accurately; add bounded OCR and later multilingual semantic retrieval only after evaluation. | P1 |
+| Video/audio | OpenCV frame sampling service exists in isolation; no production route or temporal segment/action model; audio is absent. | PARTIAL / MISSING | Keep video as bounded experimental capability; add explicit route, media limits, temporal evidence; audio remains extension work. | P2 |
+| Human grouped review | Review endpoints and review UI exist, but decisions are weakly validated and can immediately mark candidates verified. | PARTIAL | ReviewBatch snapshots, group/split/reject decisions, relation versus action approval, evidence/policy version checks, corrections and appeals. | P0 |
+| Action state machine and outcomes | Reports service is not mounted in `main.py`; partner demo writes simulated outcomes; real action/attempt models do not exist. | MOCK / MISSING | Add action, attempt, receipt, and observation models; expose manual handoff until a real adapter is configured. | P0 |
+| Connector registry | Registry endpoints list local rows; platform routes return hardcoded platform statuses/rates and synthetic receipts. | MOCK / BLOCKED_BY_EXTERNAL_ACCESS | Replace claims with capability records and verified adapters. YouTube/Discord-style permissions remain customer/platform controlled. | P0 / EXTERNAL |
+| Re-upload monitoring | SSE emits a periodic local snapshot; no durable scheduler, authorized source scope, queue, retry, DLQ, or observation model. | MOCK | Add finite monitoring policies, scheduler/worker, source authorization, observations, and denominators. | P1 |
+| SSRF-safe URL observation | `ssrf.py` validates some schemes/addresses, but platform scanning does not use a safe fetch pipeline. | PARTIAL | Sandboxed fetcher, DNS/rebinding protection, redirect policy, egress allowlist, byte/time limits, and malware scanning. | P0 |
+| Authentication, session and recovery | Access routes generate/redeem codes but have no session/principal enforcement, rate limit, or tenant binding. | UNSAFE | Implement OIDC/session or equivalent, MFA, single-use atomic recovery, revocation enforcement, and audit. | P0 |
+| CORS and configuration | `main.py` allows `*` origins with credentials; environment settings are largely unused; SQLite URL is overridden by a canonical local path. | UNSAFE | Fail-closed configured origins, secrets manager, environment validation, and explicit database URL/migrations. | P0 |
+| Database lifecycle | Import-time `create_all`; no migrations, PostgreSQL driver, FK pragma policy, job queue, or transaction/outbox. | PARTIAL | Alembic migrations, PostgreSQL for pilot, tested rollback/backup/restore, worker/outbox. | P0 |
+| PDF dossier | ReportLab produces bytes but content is largely hardcoded and includes legal/consent assertions not derived from records. | PARTIAL / MOCK | Render only verified records, escape text, version templates, sign/hash artifacts, and label unknowns. | P1 |
+| Frontend incident workflow | Next app builds; many pages use static `mockData`, localStorage, fixed IDs and fallback success states. | MOCK / PARTIAL | API-backed tenant-aware screens; typed loading/error/unknown states; remove claims of connected/removal/autopilot. | P1 |
+| Testing and metrics | Existing scripts exit successfully and build passes, but several assertions are fixture/print based; latency constants are not measured. | PARTIAL | Contract, authorization, negative, migration, worker, connector test doubles, calibrated benchmark and measured telemetry. | P0 |
+| Dependency/deployment hygiene | `requirements.txt` omits runtime imports such as numpy/cv2/torch/torchvision and PostgreSQL driver; README/runtime versions conflict. | UNSAFE / PARTIAL | Lock direct dependencies, SBOM/audit, reproducible image, health checks, worker and object storage configuration. | P0 |
+| Child-safety/CSAM intake | UI says specialist referral, but no safe referral workflow or intake boundary exists. | MISSING / NOT_RECOMMENDED | Do not accept or store prohibited media; implement counsel-reviewed referral-only flow. | LEGAL |
+
+## Verification run
+
+An isolated copy (`tmp/audit-baseline`) was used so the working tree and live SQLite database were untouched. `npm run build:web` completed successfully (Next.js 15.5.25, 19 routes). The existing API, validation, and containment scripts returned exit code 0. These are prototype/regression signals, not proof of authorization or real platform enforcement. The validation output itself calls video/OCR not implemented, uses a 30-sample controlled dataset, and records simulated partner outcomes.
+
+The research report's visual tables and diagrams were reviewed after rendering all 53 pages. Current primary documentation confirms that StopNCII hashes are created on-device and only participating platforms can act; YouTube's report endpoint requires authorized scopes and a 204 only means the request succeeded; Discord deletion of another user's message requires `MANAGE_MESSAGES`. LightGlue is a candidate, not an installed dependency, and its repository distinguishes Apache-licensed components from restrictive SuperPoint weights.
+
+## Preserve
+
+Keep the Next/FastAPI modular-monolith shape, existing UI language and visual system, real SHA/hash primitives, SIFT/USAC as a benchmark candidate, OCR unavailable seam, bounded OpenCV experiment, PDF rendering engine, local partner test double, and existing records. Reframe their status honestly and route all future behavior through versioned interfaces.

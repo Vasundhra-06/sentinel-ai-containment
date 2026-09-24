@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
   ShieldAlert,
+  Globe,
   ExternalLink, AlertTriangle, Search, FileText, CheckCircle2, ArrowRight, Eye, Shield, Send, RefreshCw, Network, Sparkles, Filter, Activity, BarChart2, TrendingUp, Lock
 } from 'lucide-react';
 import { PropagationGraph } from '@/components/PropagationGraph';
@@ -85,6 +86,50 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* ADVANCED DIGITAL CONTAINMENT CONTROLS */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <Link href="/compare" className="glass-card p-5 rounded-2xl border border-cyan-500/30 bg-slate-900/90 hover:border-cyan-400 transition-all group shadow-lg">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              CROP-RESISTANT AI
+            </span>
+            <ArrowRight className="w-4 h-4 text-cyan-400 group-hover:translate-x-1 transition-transform" />
+          </div>
+          <h4 className="font-extrabold text-white text-sm">Pairwise Media Comparison</h4>
+          <p className="text-xs text-slate-400 mt-1">
+            Compare candidate media with SIFT keypoints, USAC-MAGSAC homography, and regional tiling.
+          </p>
+        </Link>
+
+        <Link href="/partners" className="glass-card p-5 rounded-2xl border border-emerald-500/30 bg-slate-900/90 hover:border-emerald-400 transition-all group shadow-lg">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              SIMULATED DEMO
+            </span>
+            <ArrowRight className="w-4 h-4 text-emerald-400 group-hover:translate-x-1 transition-transform" />
+          </div>
+          <h4 className="font-extrabold text-white text-sm">Partner Registry & Demo</h4>
+          <p className="text-xs text-slate-400 mt-1">
+            Publish approved fingerprints to partner feeds and test platform policy webhook callbacks.
+          </p>
+        </Link>
+
+        <Link href="/incidents/HC-2041" className="glass-card p-5 rounded-2xl border border-violet-500/30 bg-slate-900/90 hover:border-violet-400 transition-all group shadow-lg">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-violet-500/20 text-violet-300 border border-violet-500/30">
+              MASTER CASE
+            </span>
+            <ArrowRight className="w-4 h-4 text-violet-400 group-hover:translate-x-1 transition-transform" />
+          </div>
+          <h4 className="font-extrabold text-white text-sm">Master Incident HC-2041</h4>
+          <p className="text-xs text-slate-400 mt-1">
+            Expandable case container with 2 verified variants, 7 occurrences, and full audit provenance.
+          </p>
+        </Link>
+
+      </div>
+
       {/* PRIORITY FEED OF FAKE NEWS & LEAKS */}
       <div className="space-y-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 glass-card p-5 rounded-2xl border border-slate-800 bg-slate-900/90">
@@ -163,10 +208,10 @@ export default function DashboardPage() {
                     <ExternalLink className="w-3.5 h-3.5 text-cyan-400" /> Inspect Post
                   </a>
                   <Link
-                    href="/reports"
+                    href="/platforms"
                     className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5"
                   >
-                    <Send className="w-3.5 h-3.5 text-slate-400" /> Dossier
+                    <Globe className="w-3.5 h-3.5 text-cyan-400" /> Containment Hub
                   </Link>
                 </div>
               </div>
